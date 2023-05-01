@@ -8,7 +8,8 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const app = express();
 
-const {getHomePage} = require('./routes/index');
+const {getHomePage} = require('./routes/index');//Home page (Warehouse Page)
+const {AddWarehouse} = require('./routes/warehouse');//Add warehouse
 
 const PORT = 3000; // Port
 
@@ -39,24 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
 
 app.get('/',getHomePage);
+app.post('/adw',AddWarehouse);
+// app.get('/edw/:id', EditWarehouse);
+// app.get('/delete/:id', DeleteWarehouse);
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-
-
-// //Add warehouse data to warehouse table
-// app.post("/adw", (req, res) => {
-//   const warehouse = {
-//     name: req.body.warehouse,
-//     manager: req.body.manager,
-//     number: req.body.tel,
-//     email: req.body.email,
-//     address: req.body.address,
-//     street: req.body.street,
-//     address2: req.body.address2,
-//     state: req.body.state,
-//     city: req.body.city,
-//     zipcode: req.body.zipcode
-//   };
-
-//   return res.send(warehouse);
-// });
