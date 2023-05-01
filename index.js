@@ -1,4 +1,4 @@
-;// Set up node js
+// Set up node js
 // Module required : express mysql body-parser ejs
 
 const express = require('express');

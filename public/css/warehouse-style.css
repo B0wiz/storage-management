@@ -299,6 +299,7 @@
     position: relative;
     background-color: #213E6A;
     height: 220px;
+    min-height: 220px;
     width: calc(100% - 200px);
     min-width: 600px;
     max-width: 900px;
@@ -321,7 +322,9 @@
 
 .content-item .item-container .text-warehouse{
     position: absolute;
-    top: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 150px;
     left: 230px;
 }
 
@@ -336,7 +339,9 @@
     font-weight: 500;
     color: #fff;
     margin-top: 10px;
+    height: auto;
     max-width:calc(100% - 100px);
+    min-width:calc(100% - 500px);
 }
 
 .content-item .item-container .text-warehouse .adr{
@@ -351,17 +356,18 @@
     font-size: 14px;
     font-weight: 400;
     color: #fff;
-    margin-top: 5px;
+    margin-top: 20px;
     max-width:calc(100% - 100px);
 }
 
 .content-item .item-container .text-warehouse .contact{
+    position: absolute;
+    bottom: 0px;
     display: flex;
     flex-direction: column;
     font-size: 12px;
     font-weight: 400;
     color: #fff;
-    margin-top: 10px;
     max-width:calc(100% - 100px);
 }
 
@@ -375,4 +381,5 @@
     color: #fff;
     font-weight: 700;
     font-size: 42px;
+    user-select: none;
 }
