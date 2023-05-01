@@ -1,4 +1,8 @@
 # storage-management
 
-Project Database
-first commit -> code node js to response index.ejs(warehouse form)
+Project Database File :
+/node_modules -> framework module
+/public -> contain css,js and img file
+/routes -> router file (backend)
+/views -> contain page(fontend .ejs)
+/index.js -> server script (backend)
