@@ -10,6 +10,9 @@ const app = express();
 
 const {getHomePage} = require('./routes/index');//Home page (Warehouse Page)
 const {AddWarehouse} = require('./routes/warehouse');//Add warehouse
+const {EditWarehouse} = require('./routes/warehouse');//Edit warehouse
+
+const {DeleteWarehouse} = require('./routes/warehouse');//Deletet warehouse
 
 const PORT = 3000; // Port
 
@@ -41,7 +44,8 @@ app.use(fileUpload());
 
 app.get('/',getHomePage);
 app.post('/adw',AddWarehouse);
-// app.get('/edw/:id', EditWarehouse);
-// app.get('/delete/:id', DeleteWarehouse);
+app.post('/edw/:id', EditWarehouse);
+// app.get('/mn/:id', ManageWarehouse);
+app.get('/dew/:id', DeleteWarehouse);
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

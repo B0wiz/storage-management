@@ -28,7 +28,7 @@
                     </a>
                 </li>
                 <li class="warehouse">
-                    <a href="/warehouse">
+                    <a href="/">
                         <i class='bx bxs-factory bx-sm'></i>
                         <span id="warehouse">WareHouse</span>
                     </a>
@@ -94,18 +94,26 @@
                                 <div class="adr">
                                     <% if (warehouse.address2) {%>
                                         <span id="adr">
-                                            <%= warehouse.address+ " " + warehouse.street + " " + warehouse.address2  + " " + warehouse.state + " " + warehouse.city + " " + warehouse.zipcode %>
+                                            <%= warehouse.address+ " " + warehouse.street + " " + warehouse.address2
+                                                + " " + warehouse.state + " " + warehouse.city + " " + warehouse.zipcode
+                                                %>
                                         </span>
                                         <% } else { %>
                                             <span id="adr">
-                                                <%= warehouse.address+ " " + warehouse.street + " " + warehouse.state + " " + warehouse.city + " " +  warehouse.zipcode %>
+                                                <%= warehouse.address+ " " + warehouse.street + " " + warehouse.state
+                                                    + " " + warehouse.city + " " + warehouse.zipcode %>
                                             </span>
-                                        <% } %>
+                                            <% } %>
                                 </div>
                                 <span id="manager-name">Manager name: <%= warehouse.manager%></span>
                                 <div class="contact">
                                     <span id="tel">Tel.:<%= warehouse.number %></span>
                                     <span id="email">Email:<%= warehouse.email %> </span>
+                                </div>
+                                <div class="option">
+                                    <button class="btn-option" id='edit' value="<%= JSON.stringify(warehouse) %>" >Edit</button>
+                                    <button class="btn-option" id='manage'>Manage</button>
+                                    <a href="/dew/<%= warehouse.warehouseID %>" class="btn-option" id='delete'>Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -115,69 +123,125 @@
                                 <% } %>
             </div>
         </div>
-    </div>
 
-    <div class="form">
-        <div class="head-form">
-            <i class='bx bxs-message-alt-add bx-lg'></i>
-            <span id="head-name">New WareHouse</span>
+
+        <div class="add-form">
+            <div class="head-form">
+                <i class='bx bxs-message-alt-add bx-lg'></i>
+                <span id="head-name">New WareHouse</span>
+            </div>
+            <form action="/adw" method="post">
+                <div class="info">
+                    <label for="warehouse_name">
+                        <span id="warehouse_name">WareHouse Name</span>
+                        <input type="text" name="warehouse_name" id="warehouse_name" required>
+                    </label>
+                    <label for="manager_name">
+                        <span id="manager_name">Manager Name</span>
+                        <input type="text" name="manager_name" id="manager_name" required>
+                    </label>
+                </div>
+                <div class="addr">
+                    <label for="address">
+                        <span id="address">Address</span>
+                        <input type="text" name="address" id="address" required>
+                    </label>
+                    <label for="street">
+                        <span id="street">Street</span>
+                        <input type="text" name="street" id="street" required>
+                    </label>
+                    <label for="address2">
+                        <span id="address2">Address Line 2</span>
+                        <input type="text" name="address2" id="address2">
+                    </label>
+                    <label for="state">
+                        <span id="state">State</span>
+                        <input type="text" name="state" id="state" required>
+                    </label>
+                    <label for="city">
+                        <span id="city">City</span>
+                        <input type="text" name="city" id="city" required>
+                    </label>
+                    <label for="zipcode">
+                        <span id="zipcode">Zipcode</span>
+                        <input type="text" name="zipcode" id="zipcode" maxlength="5" required>
+                    </label>
+                </div>
+                <div class="contact">
+                    <label for="tel">
+                        <span id="tel">Tel.</span>
+                        <input type="tel" name="tel" id="tel" required>
+                    </label>
+                    <label for="email">
+                        <span id="email">Email</span>
+                        <input type="email" name="email" id="email" required>
+                    </label>
+                </div>
+                <div class="button">
+                    <button id="confirm" type="submit">Confirm</button>
+                </div>
+            </form>
+            <button id="add-cancel">Cancel</button>
         </div>
-        <form action="/adw" method="post">
-            <div class="info">
-                <label for="warehouse_name">
-                    <span id="warehouse_name">WareHouse Name</span>
-                    <input type="text" name="warehouse_name" id="warehouse_name" required>
-                </label>
-                <label for="manager_name">
-                    <span id="manager_name">Manager Name</span>
-                    <input type="text" name="manager_name" id="manager_name" required>
-                </label>
+
+        <div class="edit-form">
+            <div class="head-form">
+                <i class='bx bx-cog bx-lg' ></i>
+                <span id="head-name">Edit WareHouse</span>
             </div>
-            <div class="addr">
-                <label for="address">
-                    <span id="address">Address</span>
-                    <input type="text" name="address" id="address" required>
-                </label>
-                <label for="street">
-                    <span id="street">Street</span>
-                    <input type="text" name="street" id="street" required>
-                </label>
-                <label for="address2">
-                    <span id="address2">Address Line 2</span>
-                    <input type="text" name="address2" id="address2">
-                </label>
-                <label for="state">
-                    <span id="state">State</span>
-                    <input type="text" name="state" id="state" required>
-                </label>
-                <label for="city">
-                    <span id="city">City</span>
-                    <input type="text" name="city" id="city" required>
-                </label>
-                <label for="zipcode">
-                    <span id="zipcode">Zipcode</span>
-                    <input type="text" name="zipcode" id="zipcode" maxlength="5" required>
-                </label>
+                <form action="" method="post" id = "editsubmit">
+                    <div class="info">
+                        <label for="warehouse_name">
+                            <span id="warehouse_name">WareHouse Name</span>
+                            <input type="text" name="warehouse_name" id="warehouse_name" required>
+                        </label>
+                        <label for="manager_name">
+                            <span id="manager_name">Manager Name</span>
+                            <input type="text" name="manager_name" id="manager_name" required>
+                        </label>
+                    </div>
+                    <div class="addr">
+                        <label for="address">
+                            <span id="address">Address</span>
+                            <input type="text" name="address" id="address" required>
+                        </label>
+                        <label for="street">
+                            <span id="street">Street</span>
+                            <input type="text" name="street" id="street" required>
+                        </label>
+                        <label for="address2">
+                            <span id="address2">Address Line 2</span>
+                            <input type="text" name="address2" id="address2">
+                        </label>
+                        <label for="state">
+                            <span id="state">State</span>
+                            <input type="text" name="state" id="state" required>
+                        </label>
+                        <label for="city">
+                            <span id="city">City</span>
+                            <input type="text" name="city" id="city" required>
+                        </label>
+                        <label for="zipcode">
+                            <span id="zipcode">Zipcode</span>
+                            <input type="text" name="zipcode" id="zipcode" maxlength="5" required>
+                        </label>
+                    </div>
+                    <div class="contact">
+                        <label for="tel">
+                            <span id="tel">Tel.</span>
+                            <input type="tel" name="tel" id="tel" required>
+                        </label>
+                        <label for="email">
+                            <span id="email">Email</span>
+                            <input type="email" name="email" id="email" required>
+                        </label>
+                    </div>
+                    <div class="button">
+                        <button id="confirm" type="submit">Confirm</button>
+                    </div>
+                </form>
+                <button id="edit-cancel">Cancel</button>
             </div>
-            <div class="contact">
-                <label for="tel">
-                    <span id="tel">Tel.</span>
-                    <input type="tel" name="tel" id="tel" required>
-                </label>
-                <label for="email">
-                    <span id="email">Email</span>
-                    <input type="email" name="email" id="email" required>
-                </label>
-            </div>
-            <div class="button">
-                <button id="confirm" type="submit">Confirm</button>
-            </div>
-            <div class="manage-delete">
-                
-            </div>
-        </form>
-        <button id="cancel">Cancel</button>
-    </div>
 
     </div>
 

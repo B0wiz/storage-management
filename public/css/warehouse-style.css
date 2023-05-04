@@ -75,7 +75,7 @@
     border: 1px solid #15806D;
 }
 
-.form.active{
+.add-form.active{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -89,12 +89,12 @@
     display: block;
 }
 
-.form{
+.add-form{
    display: none;
 }
 
 
-.form.active .head-form{
+.add-form.active .head-form{
     position: relative;
     height: 70px;
     background-color: rgb(150, 167, 211,0.66);
@@ -104,25 +104,25 @@
     align-items: center;
 }
 
-.form.active .head-form:not(.add-button){
+.add-form.active .head-form:not(.add-button){
     user-select: none;
 }
 
-.form.active .head-form i{
+.add-form.active .head-form i{
     margin-left: 30px;
 }
 
-.form.active .head-form span{
+.add-form.active .head-form span{
     font-size: 32px;
     font-weight: 600;
     margin-left: 20px;
 }
 
-.form.active label span{
+.add-form.active label span{
     user-select: none;
 }
 
-.form.active .info{
+.add-form.active .info{
     background-color: #EFEFEF;
     position: relative;
     height: 120px;
@@ -131,18 +131,18 @@
     justify-content: center;
 }
 
-.form.active .info label{
+.add-form.active .info label{
     position: relative;
     left: 50px;
     font-size: 16px;
     color: #C2461F ;
 }
 
-.form.active .info label[for="manager_name"]{
+.add-form.active .info label[for="manager_name"]{
     margin-top: 10px;
 }
 
-.form.active .info label input{
+.add-form.active .info label input{
     position: absolute;
     left: 180px;
     width: 300px;
@@ -152,7 +152,7 @@
     border-radius: 5px;
 }
 
-.form.active .addr{
+.add-form.active .addr{
     background-color: #fff;
     position: relative;
     width: 100%;
@@ -161,7 +161,7 @@
     flex-direction: column;
 }
 
-.form.active .addr label{
+.add-form.active .addr label{
     position: relative;
     top: 10px;
     left: 50px;
@@ -171,7 +171,7 @@
     color: #C2461F;
 }
 
-.form.active .addr label input{
+.add-form.active .addr label input{
     width: 300px;
     height: 25px;
     outline: none;
@@ -179,28 +179,28 @@
     border-radius: 5px;
 }
 
-.form.active .addr label[for="city"]{
+.add-form.active .addr label[for="city"]{
     position: absolute;
     top: 130px;
     left:390px;
 }
 
-.form.active .addr label[for="zipcode"]{
+.add-form.active .addr label[for="zipcode"]{
     position: absolute;
     top: 200px;
     left:390px;
 }
 
-.form.active .addr label[for="city"] input,
-.form.active .addr label[for="zipcode"] input{
+.add-form.active .addr label[for="city"] input,
+.add-form.active .addr label[for="zipcode"] input{
     width: 250px;
 }
 
-.form.active .addr label:not(label[for="address"]){
+.add-form.active .addr label:not(label[for="address"]){
     margin-top: 20px;
 }
 
-.form.active .contact{
+.add-form.active .contact{
     background-color: #EFEFEF;
     border-radius: 0 0 10px 10px;
     position: relative;
@@ -209,7 +209,7 @@
     display: flex;
 }
 
-.form.active .contact label{
+.add-form.active .contact label{
     position: relative;
     top: 25px;
     left: 50px;
@@ -219,11 +219,11 @@
     flex-direction: column;
 }
 
-.form.active .contact label[for="email"]{
+.add-form.active .contact label[for="email"]{
     left: 190px;
 }
 
-.form.active .contact label input{
+.add-form.active .contact label input{
     margin-top: 5px;
     width: 200px;
     height: 25px;
@@ -232,13 +232,13 @@
     border-radius: 5px;
 }
 
-.form.active .button{
+.add-form.active .button{
     position: absolute;
     bottom: 30px;
     right: 30px;
 }
 
-.form.active .button button{
+.add-form.active .button button{
     height: 45px;
     width: 100px;
     border-radius: 8px;
@@ -246,22 +246,22 @@
     outline: none;
 }
 
-.form.active .button button:hover{
+.add-form.active .button button:hover{
     border: 1px solid #fff;
 }
 
-.form.active .button button#confirm{
+.add-form.active .button button#confirm{
     margin-right: 150px;
     background-color: rgb(145, 162, 206,0.8);
 }
 
-.form.active button#cancel{
+.add-form.active button#add-cancel{
     position: absolute;
     bottom: 30px;
     right: 30px;
 }
 
-.form.active button#cancel{
+.add-form.active button#add-cancel{
     height: 45px;
     width: 100px;
     border-radius: 8px;
@@ -269,7 +269,7 @@
     outline: none;
 }
 
-.form.active button#cancel{
+.add-form.active button#add-cancel{
     margin-right: 20px;
     background-color: rgb(220, 136, 136,0.8);
 }
@@ -382,4 +382,253 @@
     font-weight: 700;
     font-size: 42px;
     user-select: none;
+}
+
+.content-item .item-container .option{
+    position: absolute;
+    top: 0;
+    right: -30px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.content-item .item-container .option .btn-option{
+    width: 70px;
+    height: 30px;
+    background-color: #DFF2FF;
+    border: none;
+    color: #000;
+}
+
+
+.content-item .item-container .option a{
+    text-align: center;
+    text-decoration: none;
+}
+
+.content-item .item-container .option button,
+.content-item .item-container .option a{
+    font-size: 16px;
+}
+
+.content-item .item-container .option button:hover{
+    cursor: pointer;
+}
+
+.content-item .item-container .option .btn-option:hover{
+    border: 1px solid rgb(0, 0, 0,0.3);
+    background-color: #56B8FF;
+}
+
+.content-item .item-container .option .btn-option#delete:hover{
+    border: 1px solid rgb(0, 0, 0,0.3);
+    background-color: #DA7D7D;
+}
+
+.content-item .item-container .option .btn-option#edit{
+    border-radius: 7px 7px 0 0;
+}
+
+.content-item .item-container .option .btn-option#delete{
+    border-radius: 0 0 7px 7px;
+}
+
+.edit-form.active{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width:700px;
+    height: 700px;
+    background-color: #fff;
+    border: 2px solid rgb(0, 0, 0);
+    z-index: 20;
+    border-radius: 10px;
+    display: block;
+}
+
+.edit-form{
+    display: none;
+}
+
+
+.edit-form.active .head-form{
+    position: relative;
+    height: 70px;
+    background-color: rgb(150, 167, 211,0.66);
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #000;
+    display: flex;
+    align-items: center;
+}
+
+.edit-form.active .head-form:not(.add-button){
+    user-select: none;
+}
+
+.edit-form.active .head-form i{
+    margin-left: 30px;
+}
+
+.edit-form.active .head-form span{
+    font-size: 32px;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+.edit-form.active label span{
+    user-select: none;
+}
+
+.edit-form.active .info{
+    background-color: #EFEFEF;
+    position: relative;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.edit-form.active .info label{
+    position: relative;
+    left: 50px;
+    font-size: 16px;
+    color: #C2461F ;
+}
+
+.edit-form.active .info label[for="manager_name"]{
+    margin-top: 10px;
+}
+
+.edit-form.active .info label input{
+    position: absolute;
+    left: 180px;
+    width: 300px;
+    height: 25px;
+    outline: none;
+    border: 1px solid rgb(0, 0, 0,0.3);
+    border-radius: 5px;
+}
+
+.edit-form.active .addr{
+    background-color: #fff;
+    position: relative;
+    width: 100%;
+    height: 330px;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-form.active .addr label{
+    position: relative;
+    top: 10px;
+    left: 50px;
+    width: 100%;    
+    display: flex;
+    flex-direction: column;
+    color: #C2461F;
+}
+
+.edit-form.active .addr label input{
+    width: 300px;
+    height: 25px;
+    outline: none;
+    border: 1px solid rgb(0, 0, 0,0.3);
+    border-radius: 5px;
+}
+
+.edit-form.active .addr label[for="city"]{
+    position: absolute;
+    top: 130px;
+    left:390px;
+}
+
+.edit-form.active .addr label[for="zipcode"]{
+    position: absolute;
+    top: 200px;
+    left:390px;
+}
+
+.edit-form.active .addr label[for="city"] input,
+.edit-form.active .addr label[for="zipcode"] input{
+    width: 250px;
+}
+
+.edit-form.active .addr label:not(label[for="address"]){
+    margin-top: 20px;
+}
+
+.edit-form.active .contact{
+    background-color: #EFEFEF;
+    border-radius: 0 0 10px 10px;
+    position: relative;
+    width: 100%;
+    height: 175px;
+    display: flex;
+}
+
+.edit-form.active .contact label{
+    position: relative;
+    top: 25px;
+    left: 50px;
+    font-size: 16px;
+    color: #C2461F ;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-form.active .contact label[for="email"]{
+    left: 190px;
+}
+
+.edit-form.active .contact label input{
+    margin-top: 5px;
+    width: 200px;
+    height: 25px;
+    outline: none;
+    border: 1px solid rgb(0, 0, 0,0.3);
+    border-radius: 5px;
+}
+
+.edit-form.active .button{
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+
+.edit-form.active .button button{
+    height: 45px;
+    width: 100px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+.edit-form.active .button button:hover{
+    border: 1px solid #fff;
+}
+
+.edit-form.active .button button#confirm{
+    margin-right: 150px;
+    background-color: rgb(145, 162, 206,0.8);
+}
+
+.edit-form.active button#edit-cancel{
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+
+.edit-form.active button#edit-cancel{
+    height: 45px;
+    width: 100px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+.edit-form.active button#edit-cancel{
+    margin-right: 20px;
+    background-color: rgb(220, 136, 136,0.8);
 }
