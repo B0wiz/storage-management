@@ -1,0 +1,62 @@
+<%- include ('warehouse.ejs') %>
+
+<div class="edit-form">
+    <div class="head-form">
+        <i class='bx bx-cog bx-lg' ></i>
+        <span id="head-name">Edit WareHouse</span>
+    </div>
+    <% edit.forEach((edit, index)=> { %>
+        <form action="/edw/sub/<%= edit.warehouseID %>" method="post" id = "editsubmit">
+
+            <div class="info">
+                <label for="warehouse_name">
+                    <span id="warehouse_name">WareHouse Name</span>
+                    <input type="text" name="warehouse_name" id="warehouse_name" value= <%= edit.name %> required>
+                </label>
+                <label for="manager_name">
+                    <span id="manager_name">Manager Name</span>
+                    <input type="text" name="manager_name" id="manager_name" value= <%= edit.manager %> required>
+                </label>
+            </div>
+            <div class="addr">
+                <label for="address">
+                    <span id="address">Address</span>
+                    <input type="text" name="address" id="address" value= <%= edit.address %> required>
+                </label>
+                <label for="street">
+                    <span id="street">Street</span>
+                    <input type="text" name="street" id="street" value= <%= edit.street %> required>
+                </label>
+                <label for="address2">
+                    <span id="address2">Address Line 2</span>
+                    <input type="text" name="address2" id="address2" value= <%= edit.address2 %>>
+                </label>
+                <label for="state">
+                    <span id="state">State</span>
+                    <input type="text" name="state" id="state" value= <%= edit.state %> required>
+                </label>
+                <label for="city">
+                    <span id="city">City</span>
+                    <input type="text" name="city" id="city" value= <%= edit.city %> required>
+                </label>
+                <label for="zipcode">
+                    <span id="zipcode">Zipcode</span>
+                    <input type="text" name="zipcode" id="zipcode" maxlength="5" value= <%= edit.zipcode %> required>
+                </label>
+            </div>
+            <div class="contact">
+                <label for="tel">
+                    <span id="tel">Tel.</span>
+                    <input type="tel" name="tel" id="tel" value= <%= edit.number %>  required>
+                </label>
+                <label for="email">
+                    <span id="email">Email</span>
+                    <input type="email" name="email" id="email"  value= <%= edit.email %> required>
+                </label>
+            </div>
+                <button class="button" id="confirm" type="submit">Confirm</button>
+            <% }) %>
+        </form>
+        <a href="/" class="button" id="edit-cancel" >Cancel</button>
+    </div>
+</div>

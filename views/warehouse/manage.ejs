@@ -1,0 +1,50 @@
+<%- include ('warehouse.ejs') %>
+
+<div class="manage-form">
+    <div class="head-form">
+        <i class='bx bxs-message-alt-add bx-lg'></i>
+        <span id="head-name">Manage WareHouse</span>
+    </div>
+    <div class="delete-button">
+        <a href="/mnw/" class="button" ></a>
+    </div>
+    <div class="table-container">
+    <table>
+        <tr class="head-table">
+            <td class="check"></td>
+            <td>Name</td>
+            <td>Account</td>
+            <td>Password</td>
+            <td>Email</td>
+            <td>Phone</td>
+            <td>Role</td>
+        </tr>
+        <% if (user.length > 0) {%>
+        <% user.forEach((user, index) =>{ %>
+        <tr onclick="checked(this)">
+            <td class="check"><input type="checkbox"></td>
+            <td><%=  user.fname + "  " + user.lname%></td>
+            <td><%= user.account %></td>
+            <td><%= user.password %></td>
+            <td><%= user.email %></td>
+            <td><%= user.phone %></td>
+            <td><%= user.role %></td>
+        </tr>
+        <% }) %>
+        <% } %>
+    </table>
+
+    <script>
+        function checked(row){
+            var checkbox = row.querySelector('input[type="checkbox"]');
+            if(checkbox.checked == true){
+                checkbox.checked = false;
+                row.style.backgroundColor = '#fff';
+            }else{
+                checkbox.checked = true;
+                row.style.backgroundColor = '#9bb6fc'; 
+            }
+        }
+    </script>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<%- include ('../index/index.ejs') %>
+    <div class="content-item">
+        <% if (warehouse.length> 0) {%>
+            <% warehouse.forEach((warehouse, index)=> { %>
+                <div class="item-container">
+                    <img src="/assets/img/default-warehouse-img.png" alt="warehouse-img">
+                    <div class="text-warehouse">
+                        <span id="warehouse-name">
+                            <%= warehouse.name %>
+                        </span>
+                        <div class="adr">
+                            <% if (warehouse.address2) {%>
+                                <span id="adr">
+                                    <%= warehouse.address+ " " + warehouse.street + " " + warehouse.address2 + " " +
+                                        warehouse.state + " " + warehouse.city + " " + warehouse.zipcode %>
+                                </span>
+                                <% } else { %>
+                                    <span id="adr">
+                                        <%= warehouse.address+ " " + warehouse.street + " " + warehouse.state + " " +
+                                            warehouse.city + " " + warehouse.zipcode %>
+                                    </span>
+                                    <% } %>
+                        </div>
+                        <span id="manager-name">Manager name: <%= warehouse.manager%></span>
+                        <div class="contact">
+                            <span id="tel">Tel.:<%= warehouse.number %></span>
+                            <span id="email">Email:<%= warehouse.email %> </span>
+                        </div>
+                        <div class="option">
+                            <a href="/edw/<%= warehouse.warehouseID %>" action="get" class="btn-option" id='edit'>Edit</a>
+                            <a href="/mnw/<%= warehouse.warehouseID %>" action="get" class="btn-option" id='manage'>Manage</a>
+                            <a href="/dew/<%= warehouse.warehouseID %>" class="btn-option" id='delete'>Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <span id="no_warehouse"> No WareHouse exists.</span>
+                        <% } %>
+    </div>
+    </div>
+    
+    <div class="add-form">
+        <div class="head-form">
+            <i class='bx bxs-message-alt-add bx-lg'></i>
+            <span id="head-name">New WareHouse</span>
+        </div>
+        <form action="/adw" method="post">
+            <div class="info">
+                <label for="warehouse_name">
+                    <span id="warehouse_name">WareHouse Name</span>
+                    <input type="text" name="warehouse_name" id="warehouse_name" required>
+                </label>
+                <label for="manager_name">
+                    <span id="manager_name">Manager Name</span>
+                    <input type="text" name="manager_name" id="manager_name" required>
+                </label>
+            </div>
+            <div class="addr">
+                <label for="address">
+                    <span id="address">Address</span>
+                    <input type="text" name="address" id="address" required>
+                </label>
+                <label for="street">
+                    <span id="street">Street</span>
+                    <input type="text" name="street" id="street" required>
+                </label>
+                <label for="address2">
+                    <span id="address2">Address Line 2</span>
+                    <input type="text" name="address2" id="address2">
+                </label>
+                <label for="state">
+                    <span id="state">State</span>
+                    <input type="text" name="state" id="state" required>
+                </label>
+                <label for="city">
+                    <span id="city">City</span>
+                    <input type="text" name="city" id="city" required>
+                </label>
+                <label for="zipcode">
+                    <span id="zipcode">Zipcode</span>
+                    <input type="text" name="zipcode" id="zipcode" maxlength="5" required>
+                </label>
+            </div>
+            <div class="contact">
+                <label for="tel">
+                    <span id="tel">Tel.</span>
+                    <input type="tel" name="tel" id="tel" required>
+                </label>
+                <label for="email">
+                    <span id="email">Email</span>
+                    <input type="email" name="email" id="email" required>
+                </label>
+            </div>
+            <div class="button">
+                <button id="confirm" type="submit">Confirm</button>
+            </div>
+        </form>
+        <button id="add-cancel">Cancel</button>
+    </div>
+    <script src="/js/warehouse.js"></script>
