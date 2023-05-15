@@ -3,7 +3,7 @@ var warehouse = {};
 
 module.exports = {
   AddWarehouse: (req, res) => {
-    console.log('AddWarehouse module');
+    console.log('Add Warehouse module!');
     // if (!req.file) {
     //   return res.status(400).send("No files were upload");
     // }
@@ -13,14 +13,14 @@ module.exports = {
         number: req.body.tel,
         email: req.body.email,
         address: req.body.address,
-        street: req.body.street,
-        address2: req.body.address2,
         state: req.body.state,
         city: req.body.city,
         zipcode: req.body.zipcode,
     };
 
-    let warehouseQuery = "INSERT INTO warehouse (name, manager, email, number,address, street, address2, state, city, zipcode) VALUES ('" + awarehouse.name +"', '" + awarehouse.manager +"', '" + awarehouse.email +"', '" + awarehouse.number +"', '" + awarehouse.address +"', '" + awarehouse.street +"', '" + awarehouse.address2 +"','" + awarehouse.state +"','" + awarehouse.city +"','" + awarehouse.zipcode +"')";
+    console.log(awarehouse)
+
+    let warehouseQuery = "INSERT INTO warehouse (name, manager, email, number,address, state, city, zipcode) VALUES ('" + awarehouse.name +"', '" + awarehouse.manager +"', '" + awarehouse.email +"', '" + awarehouse.number +"', '" + awarehouse.address +"','" + awarehouse.state +"','" + awarehouse.city +"','" + awarehouse.zipcode +"')";
 
     db.query(warehouseQuery, (err, result) => {
         if (err){
@@ -45,15 +45,15 @@ module.exports = {
 
     db.query(editquery, (err, result) => {
         if(err){
-                res.redirect('/');
+            console.log('error');
+            res.redirect('/');
         }
         res.render('warehouse/edit.ejs', {
-            edit : result,
+            editwh : result,
             warehouse
         },)
     });
 
-    // console.log(warehouse)
   },
 
   EditWarehouse: (req,res) => {
@@ -63,8 +63,6 @@ module.exports = {
         number: req.body.tel,
         email: req.body.email,
         address: req.body.address,
-        street: req.body.street,
-        address2: req.body.address2,
         state: req.body.state,
         city: req.body.city,
         zipcode: req.body.zipcode,
@@ -76,8 +74,6 @@ module.exports = {
     email = '" + ewarehouse.email +"',\
     number = '" + ewarehouse.number +"',\
     address = '" + ewarehouse.address +"',\
-    street = '" + ewarehouse.street +"',\
-    address2 = '" + ewarehouse.address2 +"',\
     state = '" + ewarehouse.state +"',\
     city = '" + ewarehouse.city +"',\
     zipcode = '" + ewarehouse.zipcode +"'\

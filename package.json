@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build-tail": "NODE_ENV=production tailwindcss build -i ./public/styles/tailwindcss.css -o ./public/assets/static/styles.css"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,12 @@
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "mysql": "^2.18.1",
+    "postcss-cli": "^10.1.0",
     "req-flash": "^0.0.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2"
   }
 }

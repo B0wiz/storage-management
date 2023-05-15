@@ -7,9 +7,25 @@ module.exports = {
             if(err){
                 res.redirect('/');
             }
-            var warehouse = result
-            res.render('warehouse/warehouse.ejs', {
-                warehouse
+            console.log(result)
+            res.render('warehouse/index.ejs', {
+                warehouse : result
+            })
+        });
+
+    },
+
+    getProductPage: (req ,res) => {
+        let query = "SELECT * FROM warehouse ORDER BY warehouseID ASC";
+
+        // excecuted qurey
+        db.query(query, (err, result) => {
+            if(err){
+                res.redirect('/');
+            }
+            console.log(result)
+            res.render('product/', {
+                warehouse : result
             })
         });
 

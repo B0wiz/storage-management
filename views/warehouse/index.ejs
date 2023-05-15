@@ -1,0 +1,229 @@
+<%- include ('../index/index.ejs') %>
+
+    <main class=" flex-auto h-screen bg-gray-100 w-full min-w-0">
+        <!-- heading nav bar -->
+        <header class=" w-auto bg-white z-20 top-0 left-0 border-b border-gray-200">
+            <div class="flex justify-between items-center mx-auto p-4">
+                <div class="flex items-center">
+                    <div class="mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-warehouse">
+                            <path
+                                d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z">
+                            </path>
+                            <path d="M6 18h12"></path>
+                            <path d="M6 14h12"></path>
+                            <rect width="12" height="12" x="6" y="10"></rect>
+                        </svg>
+                    </div>
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap">
+                        Warehouse
+                    </span>
+                </div>
+
+                <div class="flex md:order-2">
+                    <button data-modal-target="addNewWarehouse" data-modal-toggle="addNewWarehouse"
+                        class="block text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        type="button">
+                        Add New Warehouse
+                    </button>
+                </div>
+            </div>
+        </header>
+
+
+        <div class="my-5 h-5/6  overflow-y-auto rounded-xl space-y-5 ">
+            <div class="flex flex-col items-center justify-center py-0  sm:px-6 lg:px-8">
+                <div class="space-y-10 overflow-auto h-min-xl">
+                    <% if (warehouse.length > 0) {%>
+                        <% warehouse.forEach((warehouse, index)=> { %>
+                    <div
+                        class="flex flex-col items-center bg-white border border-gray-200 rounded-xl shadow lg:flex-row lg:max-w-4xl md:pr-6 md:px-2 md:py-4">
+                        <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+                            src="https://www.novabizz.com/uploads/post/717804-1.jpg" alt="" />
+                        <div class="flex flex-col justify-between p-4 leading-normal">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                                <%= warehouse.name %>
+                            </h5>
+                            <p class="mb-3 font-normal text-gray-900">
+                                <%= warehouse.address + " ," + warehouse.state +" ," + warehouse.city + " ," + warehouse.zipcode %>
+                            </p>
+                            <p>Manager :  <%= warehouse.manager %></p>
+                            <div class="flex space-x-10">
+                                <p>Email :  <%= warehouse.email %></p>
+                                <p>Tel:  <%= warehouse.number %></p>
+                            </div>
+                        </div>
+                        <div class="grid grid-rows-4">
+                            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown-<%= warehouse.warehouseID %>"
+                                class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"
+                                type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mx-3" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-settings">
+                                    <path
+                                        d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+                                    </path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                            <!--  Dropdown menu  -->
+                            <div id="dropdown-<%= warehouse.warehouseID %>"
+                                class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24 ">
+                                <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdown">
+                                    <li>
+                                        <a href="/edw/<%= warehouse.warehouseID %>" class="block px-4 py-2 hover:bg-gray-100">
+                                            <!-- data-modal-target="editWarehouse" data-modal-toggle="editWarehouse" -->
+                                                Edit
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/mnw/<%= warehouse.warehouseID %>" class="block px-4 py-2 hover:bg-gray-100">
+                                            Manage
+                                        </a>
+                                    </li>
+                                    <div>
+                                        <a href="/dew/<%= warehouse.warehouseID %>" class="block px-4 py-2 bg-red-600 hover:bg-red-700 text-gray-100">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                </div>
+            </div>
+
+            <!--add new warehouse modal-->
+            <div id="addNewWarehouse" tabindex="-1" aria-hidden="true"
+                class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-2xl max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow">
+                        <!-- Modal header -->
+                        <div class="flex items-start justify-between p-4 border-b rounded-t">
+                            <div class="mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-warehouse">
+                                    <path
+                                        d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z">
+                                    </path>
+                                    <path d="M6 18h12"></path>
+                                    <path d="M6 14h12"></path>
+                                    <rect width="12" height="12" x="6" y="10"></rect>
+                                </svg>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900">
+                                New Warehouse
+                            </h3>
+                            <button type="button"
+                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                data-modal-hide="addNewWarehouse">
+                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="">
+                            <form action="/adw" method="post">
+                                <div class="items-center px-6 py-4 bg-gray-100 space-y-4">
+                                    <div class="flex flex-row space-x-16">
+                                        <label for="product name" class="block mb-2 text-sm font-medium text-gray-900">
+                                            Manager Name
+                                        </label>
+                                        <input type="text" id="manager_name" name="manager_name"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5"
+                                            required />
+                                    </div>
+                                    <div class="flex flex-row space-x-12">
+                                        <label for="product name" class="block mb-2 text-sm font-medium text-gray-900">
+                                            Warehouse Name
+                                        </label>
+                                        <input type="text" id="warehouse_name" name="warehouse_name"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5"
+                                            required />
+                                    </div>
+                                </div>
+                                <div class="px-6 py-4 grid gap-4 mb-4 md:grid-cols-2">
+                                    <!-- <div class="mb-4 flex flex-row space-x-4">  -->
+                                    <div>
+                                        <label for="street address"
+                                            class="block mb-2 text-sm font-medium text-gray-900">
+                                            Street address
+                                        </label>
+                                        <input type="text" id="address" name="address"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            placeholder="Phayathai" required />
+                                    </div>
+                                    <div>
+                                        <label for="city" class="block mb-2 text-sm font-medium text-gray-900">
+                                            City / District
+                                        </label>
+                                        <input type="text" id="city" name="city"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            placeholder="Pathumwan" required />
+                                        <!-- </div>  -->
+                                    </div>
+                                    <div>
+                                        <label for="state" class="block mb-2 text-sm font-medium text-gray-900">
+                                            State / Province
+                                        </label>
+                                        <input type="text" id="state" name="state"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            placeholder="Bangkok" required />
+                                    </div>
+                                    <div>
+                                        <label for="Zip code" class="block mb-2 text-sm font-medium text-gray-900">
+                                            Zip code
+                                        </label>
+                                        <input type="text" id="zipcode" name="zipcode"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                            placeholder="11111" required />
+                                        <!-- </div>  -->
+                                    </div>
+                                </div>
+                                <div class="px-6 py-4 bg-gray-100 grid gap-4 md:grid-cols-2">
+                                    <div>
+                                        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">
+                                            Phone number
+                                        </label>
+                                        <input type="tel" id="tel" name="tel"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-56 p-2.5"
+                                            placeholder="123-456-6789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
+                                    </div>
+                                    <div>
+                                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
+                                            Email address
+                                        </label>
+                                        <input type="email" id="email" name="email"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-56 p-2.5"
+                                            placeholder="example@mail.com" required />
+                                    </div>
+                                </div>
+                                </div>
+                                <!--  Modal footer  -->
+                                <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                                <button type="submit"
+                                    class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                    Confirm
+                                </button>
+                            </form>
+                        
+                            <button data-modal-hide="addNewWarehouse" type="button"
+                                class="text-gray-500 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main> 
