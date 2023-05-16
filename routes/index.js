@@ -16,7 +16,7 @@ module.exports = {
     },
 
     getProductPage: (req ,res) => {
-        let query = "SELECT * FROM warehouse ORDER BY warehouseID ASC";
+        let query = "SELECT * FROM product ORDER BY productID ASC";
 
         // excecuted qurey
         db.query(query, (err, result) => {

@@ -1,6 +1,6 @@
 <%- include ('../index/index.ejs') %>
 
-    <main class=" flex-auto h-screen bg-gray-100 w-full min-w-0">
+    <main id="main" class=" flex-auto h-screen bg-gray-100 w-full min-w-0">
         <!-- heading nav bar -->
         <header class=" w-auto bg-white z-20 top-0 left-0 border-b border-gray-200">
             <div class="flex justify-between items-center mx-auto p-4">
@@ -44,15 +44,15 @@
                             src="https://www.novabizz.com/uploads/post/717804-1.jpg" alt="" />
                         <div class="flex flex-col justify-between p-4 leading-normal">
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                                <%= warehouse.name %>
+                                <%= warehouse.warehousename %>
                             </h5>
                             <p class="mb-3 font-normal text-gray-900">
-                                <%= warehouse.address + " ," + warehouse.state +" ," + warehouse.city + " ," + warehouse.zipcode %>
+                                <%= warehouse.warehouseaddress + " ," + warehouse.warehousestate +" ," + warehouse.warehousecity + " ," + warehouse.warehousezipcode %>
                             </p>
-                            <p>Manager :  <%= warehouse.manager %></p>
+                            <p>Manager :  <%= warehouse.warehousemanager %></p>
                             <div class="flex space-x-10">
-                                <p>Email :  <%= warehouse.email %></p>
-                                <p>Tel:  <%= warehouse.number %></p>
+                                <p>Email :  <%= warehouse.warehouseemail %></p>
+                                <p>Tel:  <%= warehouse.warehousenumber %></p>
                             </div>
                         </div>
                         <div class="grid grid-rows-4">
@@ -74,7 +74,7 @@
                                 <ul class="py-2 text-sm text-gray-700" aria-labelledby="dropdown">
                                     <li>
                                         <a href="/edw/<%= warehouse.warehouseID %>" class="block px-4 py-2 hover:bg-gray-100">
-                                            <!-- data-modal-target="editWarehouse" data-modal-toggle="editWarehouse" -->
+                                            <!-- data-modal-target="editWarehouse" data-modal-toggle="editWarehouse"> -->
                                                 Edit
                                         </a>
                                     </li>

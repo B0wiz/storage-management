@@ -20,7 +20,7 @@ module.exports = {
 
     console.log(awarehouse)
 
-    let warehouseQuery = "INSERT INTO warehouse (name, manager, email, number,address, state, city, zipcode) VALUES ('" + awarehouse.name +"', '" + awarehouse.manager +"', '" + awarehouse.email +"', '" + awarehouse.number +"', '" + awarehouse.address +"','" + awarehouse.state +"','" + awarehouse.city +"','" + awarehouse.zipcode +"')";
+    let warehouseQuery = "INSERT INTO warehouse (warehousename, warehousemanager, warehouseemail, warehousenumber,warehouseaddress, warehousestate, warehousecity, warehousezipcode) VALUES ('" + awarehouse.name +"', '" + awarehouse.manager +"', '" + awarehouse.email +"', '" + awarehouse.number +"', '" + awarehouse.address +"','" + awarehouse.state +"','" + awarehouse.city +"','" + awarehouse.zipcode +"')";
 
     db.query(warehouseQuery, (err, result) => {
         if (err){
@@ -69,14 +69,14 @@ module.exports = {
     };
     let warehouseID = req.params.id;
     let updateQuery = "UPDATE warehouse SET \
-    name = '" + ewarehouse.name +"',\
-    manager = '" + ewarehouse.manager +"',\
-    email = '" + ewarehouse.email +"',\
-    number = '" + ewarehouse.number +"',\
-    address = '" + ewarehouse.address +"',\
-    state = '" + ewarehouse.state +"',\
-    city = '" + ewarehouse.city +"',\
-    zipcode = '" + ewarehouse.zipcode +"'\
+    warehousename = '" + ewarehouse.name +"',\
+    warehousemanager = '" + ewarehouse.manager +"',\
+    warehouseemail = '" + ewarehouse.email +"',\
+    warehousenumber = '" + ewarehouse.number +"',\
+    warehouseaddress = '" + ewarehouse.address +"',\
+    warehousestate = '" + ewarehouse.state +"',\
+    warehousecity = '" + ewarehouse.city +"',\
+    warehousezipcode = '" + ewarehouse.zipcode +"'\
     WHERE warehouseID = '"+ warehouseID +"'";
 
     db.query(updateQuery, (err, result) => {

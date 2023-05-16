@@ -105,46 +105,58 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% if (user.length > 0) {%>
-                                        <% user.forEach((user,index) => {%>
-                                    <tr class="body-b">
-                                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap ">
-                                            <%= user.userfname + user.userlname %></th>
-                                        <td class="px-4 py-3"><%= user.useraccount %></td>
-                                        <td class="px-4 py-3"><%= user.useremail %></td>
-                                        <td class="px-4 py-3"><%= user.userphone %></td>
-                                        <td class="px-4 py-3"><%= user.userrole %></td>
-                                        <td class="px-4 py-3 flex items-center justify-end">
-                                            <button id="more-employee-dropdown-button"
-                                                data-dropdown-toggle="more-employee-dropdown"
-                                                class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none "
-                                                type="button">
-                                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
-                                                    viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                </svg>
-                                            </button>
-                                            <div id="more-employee-dropdown"
-                                                class="hidden z-10 w-44 rounded divide-y divide-gray-100 shadow ">
-                                                <ul class="py-1 text-sm text-gray-700 "
-                                                    aria-labelledby="more-employee-dropdown-button">
-                                                    <li>
-                                                        <a href="#" class="block py-2 px-4 hover:bg-gray-100 ">Show</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="block py-2 px-4 hover:bg-gray-100 ">Edit</a>
-                                                    </li>
-                                                </ul>
-                                                <div class="py-1">
-                                                    <a href="#"
-                                                        class="block py-2 px-4 text-sm text-gray-700 bg-red-600 hover:bg-red-700 ">Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <% }); %>
-                                    <% } %>
+                                    <% if (user.length> 0) {%>
+                                        <% user.forEach((user,index)=> {%>
+                                            <tr class="body-b">
+                                                <th scope="row"
+                                                    class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap ">
+                                                    <%= user.userfname + user.userlname %>
+                                                </th>
+                                                <td class="px-4 py-3">
+                                                    <%= user.useraccount %>
+                                                </td>
+                                                <td class="px-4 py-3">
+                                                    <%= user.useremail %>
+                                                </td>
+                                                <td class="px-4 py-3">
+                                                    <%= user.userphone %>
+                                                </td>
+                                                <td class="px-4 py-3">
+                                                    <%= user.userrole %>
+                                                </td>
+                                                <td class="px-4 py-3 flex items-center justify-end">
+                                                    <button id="more-employee-dropdown-button"
+                                                        data-dropdown-toggle="more-employee-dropdown"
+                                                        class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none "
+                                                        type="button">
+                                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                            viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                        </svg>
+                                                    </button>
+                                                    <div id="more-employee-dropdown"
+                                                        class="hidden z-10 w-44 rounded divide-y divide-gray-100 shadow ">
+                                                        <ul class="py-1 text-sm text-gray-700 "
+                                                            aria-labelledby="more-employee-dropdown-button">
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="block py-2 px-4 hover:bg-gray-100 ">Show</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#"
+                                                                    class="block py-2 px-4 hover:bg-gray-100 ">Edit</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="py-1">
+                                                            <a href="#"
+                                                                class="block py-2 px-4 text-sm text-gray-700 bg-red-600 hover:bg-red-700 ">Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <% }); %>
+                                                <% } %>
                                 </tbody>
                             </table>
                         </div>
@@ -173,3 +185,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggle = new Modal(document.getElementById("manageWarehouse"));
+            toggle.show();
+        })
+    </script>
