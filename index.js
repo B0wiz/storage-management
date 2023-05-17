@@ -8,7 +8,7 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const app = express();
 
-const {getHomePage, getProductPage} = require('./routes/index');//Home page (Warehouse Page)
+const {getHomePage, getProductPage,getIncomingorderPage} = require('./routes/index');//Home page (Warehouse Page)
 const {AddWarehouse, getWarehouse, EditWarehouse, getUser, DeleteEmployee,DeleteWarehouse} = require('./routes/warehouse');//Add warehouse
 
 const PORT = 3000; // Port
@@ -47,6 +47,10 @@ app.get('/mnw/:id', getUser);
 // app.get('/mnw/deu/:id', DeleteEmployee);
 app.get('/dew/:id', DeleteWarehouse);
 
+// Product page
 app.get('/product', getProductPage);
 
+
+//Incoming order page
+app.get('/incoming/:pagestart', getIncomingorderPage);
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

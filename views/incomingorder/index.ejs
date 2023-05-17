@@ -1,0 +1,432 @@
+<%- include ('../index/index.ejs') %>
+
+    <main class="flex-auto h-screen w-full min-w-0">
+        <!-- heading nav bar -->
+        <header class="w-auto bg-white z-20 top-0 left-0 border-b border-gray-200">
+            <div class="flex justify-between items-center mx-auto p-4 space-x-5">
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 items-center md:space-x-3">
+                    <div class="flex">
+                        <div class="mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-shopping-cart">
+                                <circle cx="8" cy="21" r="1"></circle>
+                                <circle cx="19" cy="21" r="1"></circle>
+                                <path
+                                    d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap">
+                            Incoming order
+                        </span>
+                    </div>
+                </div>
+
+                <div class="w-96">
+                    <form class="flex items-center">
+                        <label for="simple-search" class="sr-only">Search</label>
+                        <div class="relative w-full">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="currentColor"
+                                    viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <input type="text" id="simple-search"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2"
+                                placeholder="Search" required="" />
+                        </div>
+                    </form>
+                </div>
+
+                <div
+                    class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                    <div class="flex items-center space-x-3 w-full md:w-auto">
+                        <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown"
+                            class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700"
+                            type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                class="h-4 w-4 mr-2 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Warehouse
+                            <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path clip-rule="evenodd" fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            </svg>
+                        </button>
+                        <div id="filterDropdown" class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow">
+                            <h6 class="mb-3 text-sm font-medium text-gray-900">
+                                Choose warehouse
+                            </h6>
+                            <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
+                                <% if(warehouse.length> 0) {%>
+                                    <% warehouse.forEach((warehouse,index)=> { %>
+                                        <li class="flex items-center">
+                                            <input id="Selectwarehouse" type="checkbox" name="Selectwarehouse"
+                                                value="<%= warehouse.warehouseID %>"
+                                                class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+                                            <label for="apple" class="ml-2 text-sm font-medium text-gray-900">
+                                                <%= warehouse.warehousename %>
+                                            </label>
+                                        </li>
+                                        <% }); %>
+                                            <% };%>
+                            </ul>
+                        </div>
+                    </div>
+                    <button data-modal-target="addNewIncomingOrder" data-modal-toggle="addNewIncomingOrder"
+                        class="block text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        type="button">
+                        Add New Incoming order
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div id="addNewIncomingOrder" tabindex="-1" aria-hidden="true"
+            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t">
+                        <div class="mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="lucide lucide-warehouse">
+                                <path
+                                    d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z">
+                                </path>
+                                <path d="M6 18h12"></path>
+                                <path d="M6 14h12"></path>
+                                <rect width="12" height="12" x="6" y="10"></rect>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900">
+                            New Incoming Order
+                        </h3>
+                        <button type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                            data-modal-hide="addNewIncomingOrder">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="">
+                        <form class="" action="Insert.php" method="post">
+                            <div class="items-center px-6 py-4 bg-gray-100 space-y-4">
+                                <div class="flex flex-row space-x-16">
+                                    <label for="product name" class="block mb-2 text-sm font-medium text-gray-900">
+                                        Manager Name
+                                    </label>
+                                    <input type="text" id="product_name"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5"
+                                        required />
+                                </div>
+                                <div class="flex flex-row space-x-12">
+                                    <label for="product name" class="block mb-2 text-sm font-medium text-gray-900">
+                                        Warehouse Name
+                                    </label>
+                                    <input type="text" id="product_name"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5"
+                                        required />
+                                </div>
+                            </div>
+                            <div class="px-6 py-4 grid gap-4 mb-4 md:grid-cols-2">
+                                <!-- <div class="mb-4 flex flex-row space-x-4">  -->
+                                <div>
+                                    <label for="street address" class="block mb-2 text-sm font-medium text-gray-900">
+                                        Street address
+                                    </label>
+                                    <input type="text" id="street_address"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="Phayathai" required />
+                                </div>
+                                <div>
+                                    <label for="city" class="block mb-2 text-sm font-medium text-gray-900">
+                                        City / District
+                                    </label>
+                                    <input type="text" id="city"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="Pathumwan" required />
+                                    <!-- </div>  -->
+                                </div>
+                                <div>
+                                    <label for="state" class="block mb-2 text-sm font-medium text-gray-900">
+                                        State / Province
+                                    </label>
+                                    <input type="text" id="state"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="Bangkok" required />
+                                </div>
+                                <div>
+                                    <label for="Zip code" class="block mb-2 text-sm font-medium text-gray-900">
+                                        Zip code
+                                    </label>
+                                    <input type="text" id="zipcode"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="11111" required />
+                                    <!-- </div>  -->
+                                </div>
+                            </div>
+                            <div class="px-6 py-4 bg-gray-100 grid gap-4 md:grid-cols-2">
+                                <div>
+                                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">
+                                        Phone number
+                                    </label>
+                                    <input type="tel" id="phone"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-56 p-2.5"
+                                        placeholder="123-456-6789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required />
+                                </div>
+                                <div>
+                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
+                                        Email address
+                                    </label>
+                                    <input type="email" id="email"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-56 p-2.5"
+                                        placeholder="example@mail.com" required />
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!--  Modal footer  -->
+                    <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                        <button data-modal-hide="addNewIncomingOrder" type="submit"
+                            class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                            action="#">
+                            Confirm
+                        </button>
+                        <button data-modal-hide="addNewIncomingOrder" type="button"
+                            class="text-gray-500 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <div class="mx-auto max-w-screen-xl">
+                <!-- Start coding here -->
+                <div class="bg-white relative border-b top-10 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr id="header" class="h-20">
+                                    <th scope="col" class="px-4 py-3">Warehouse</th>
+                                    <th scope="col" class="px-4 py-3">User</th>
+                                    <th scope="col" class="px-4 py-3">Product name</th>
+                                    <th scope="col" class="px-4 py-3">Category</th>
+                                    <th scope="col" class="px-4 py-3">Product Price</th>
+                                    <th scope="col" class="px-4 py-3">Quantity</th>
+                                    <th scope="col" class="px-4 py-3">Price</th>
+                                    <th scope="col" class="px-4 py-3">Date</th>
+                                    <th scope="col" class="px-4 py-3">
+                                        <span class="sr-only">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if(item.length> 0) { %>
+                                    <% item.forEach((item,index)=> { %>
+                                        <tr class="border-b w-full h-16" id="<%= item.warehouseID %>">
+                                            <th scope="row"
+                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                                                <%= item.warehouse %>
+                                            </th>
+                                            <td class="px-4 py-3"><%= item.users%></td>
+                                            <th scope="row"
+                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                                                <%= item.productname %>
+                                            </th>
+                                            <td class="px-4 py-3">
+                                                <%= item.categoryname%>
+                                            </td>
+                                            <td class="px-4 py-3">$<%= item.productprice%>
+                                            </td>
+                                            <td class="px-4 py-3">
+                                                <%= item.incomingitemquantity%>
+                                            </td>
+                                            <td class="px-4 py-3">$<%= item.price%></td>
+                                            <td class="px-4 py-3"><%= new Date(item.date).toLocaleDateString() %></td>
+                                            <td class="px-4 py-3 flex items-center justify-end">
+                                                <button id="benq-ex2710q-dropdown-button"
+                                                    data-dropdown-toggle="benq-ex2710q-dropdown"
+                                                    class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none"
+                                                    type="button">
+                                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
+                                                        viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                                    </svg>
+                                                </button>
+                                                <div id="benq-ex2710q-dropdown"
+                                                    class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow">
+                                                    <ul class="py-1 text-sm text-gray-700"
+                                                        aria-labelledby="benq-ex2710q-dropdown-button">
+                                                        <li>
+                                                            <a href="/edin/:id"
+                                                                class="block py-2 px-4 hover:bg-gray-100">Edit</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="py-1">
+                                                        <a href="#"
+                                                            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                            <% }; %>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                    <!-- footer -->
+                    <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+                        aria-label="Table navigation">
+                        <span class="text-sm font-normal text-gray-500">
+                            Showing
+                            <span class="font-semibold text-gray-900">1-10</span>
+                            of
+                            <span class="font-semibold text-gray-900"><%= item.length %></span>
+                        </span>
+                        <ul class="inline-flex items-stretch -space-x-px">
+                            <li>
+                                <a href="#"
+                                    class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                                    <span class="sr-only">Previous</span>
+                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                            </li>
+                            <% var page = []; %>
+                            <% var numPages = Math.ceil(item.length / 10);; %>
+                            <% var pageCount = pageStart+5; %>
+                            <% for (var i = 1; i <= numPages; i++) { page.push(i); } %>
+                            <% page.forEach((pageNum) => { %>
+                                <% if(pageNum > pageStart) {%>
+                                    <% if(pageNum == pageCount) {%>
+                                        <li>
+                                            <button id="movepagestart" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">...</button>
+                                        </li>
+                                        <% return; %>
+                                    <% } else if(pageNum > pageCount) {%>
+                                        <% if(pageNum <= page.length && pageNum > page.length-2) {%>
+                                        <li>
+                                            <a href="/incoming/<%= pageNum-1 %>?start=<%= pageNum-10 %>" id = "page" value = "<%= pageNum-1 %>"
+                                            class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"><%= pageNum %></a>
+                                        </li>
+                                        <% return; %>
+                                        <% } else { return;}%>
+                                    <% } %>
+                                <li>
+                                    <a href="/incoming/<%= pageNum-1 %>?start=0" id = "page" value = "<%= pageNum-1 %>"
+                                        class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-800"><%= pageNum %></a>
+                                </li>
+                                <% } %>
+                                <% }); %>
+                            <li>
+                                <a href="#"
+                                    class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                                    <span class="sr-only">Next</span>
+                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // script for select warehouse
+        const checkboxes = document.querySelectorAll('#Selectwarehouse');
+        var selectedWarehouses = [];
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    selectedWarehouses.push(checkbox.value);
+                    const selected = selectedWarehouses.map(id => `[id="${id}"]`).join(',')+ ', [id="header"]';
+                    const show = document.querySelectorAll(selected);
+                    const hide = document.querySelectorAll(`tr:not(${selected})`);
+                    console.log(selected)
+                    hide.forEach((element) => {
+                            element.classList.add('hidden');
+                    });
+                    show.forEach((element) => {
+                            element.classList.remove('hidden');
+                    });
+                } else {
+                    const index = selectedWarehouses.indexOf(checkbox.value);
+                    if (index !== -1) {
+                        selectedWarehouses.splice(index, 1);
+                    }
+                    if(selectedWarehouses.length === 0){
+                        const unhide = document.querySelectorAll(`tr`);
+                        unhide.forEach((element) => {
+                            element.classList.remove('hidden');
+                        });
+                    }else{
+                        var unselected = selectedWarehouses.map(id => `[id="${id}"]`).join(',')+ ', [id="header"]';
+                        const hide = document.querySelectorAll(`tr:not(${unselected})`);
+                        hide.forEach((element) => {
+                            element.classList.add('hidden');
+                        });
+                    }
+                }
+                console.log(selectedWarehouses);
+            });
+        });
+
+        // script showing text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700
+        const pages = document.querySelectorAll('#page');
+        const url = window.location.href;
+        const paramValue = url.split('?')[0].split('/').pop(); 
+        
+        pages.forEach((page) => {
+            var value = page.getAttribute('value');
+            if(value == paramValue){
+
+                page.classList.remove('text-gray-500');
+                page.classList.remove('bg-white');
+                page.classList.add('bg-gray-100');
+                page.classList.add('text-gray-700');
+            }
+        })
+        // script for ...
+        const buttonmove = document.querySelector('#movepagestart');
+        // let pageStart = <%= pageStart %>; 
+        buttonmove.addEventListener('click', () => {
+            pageStart += 5;
+            window.location.href = `/incoming/${pageStart}?start=${pageStart}`;
+        })
+
+        // script for search 
+    </script>
