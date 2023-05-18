@@ -72,5 +72,19 @@ module.exports = {
             })
 
         });
+    },
+    getOutgoingorderPage: (req,res) => {
+        let query = "SELECT * FROM product ORDER BY productID ASC";
+
+        // excecuted qurey
+        db.query(query, (err, result) => {
+            if(err){
+                res.redirect('/');
+            }
+            console.log(result)
+            res.render('product/index.ejs', {
+                product : result
+            })
+        });
     }
 }

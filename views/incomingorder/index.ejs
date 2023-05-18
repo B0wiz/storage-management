@@ -304,12 +304,10 @@
                         <span class="text-sm font-normal text-gray-500">
                             Showing
                             <span class="font-semibold text-gray-900">1-10</span>
-                            of
-                            <span class="font-semibold text-gray-900"><%= item.length %></span>
                         </span>
                         <ul class="inline-flex items-stretch -space-x-px">
                             <% var page = []; %>
-                            <% var numPages = 10 ; %>
+                            <% var numPages = Math.ceil(item.length / 10);  %>
                             <!-- Math.ceil(item.length / 10); -->
                             <% var pageCount = pageStart+5; %>
                             <% if(pageStart-1 >= 0 ) {%>
@@ -408,7 +406,6 @@
                     const selected = selectedWarehouses.map(id => `[id="${id}"]`).join(',')+ ', [id="header"]';
                     const show = document.querySelectorAll(selected);
                     const hide = document.querySelectorAll(`tr:not(${selected})`);
-                    console.log(selected)
                     hide.forEach((element) => {
                             element.classList.add('hidden');
                     });
@@ -433,14 +430,13 @@
                         });
                     }
                 }
-                console.log(selectedWarehouses);
             });
         });
 
         // script showing text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700
         const pages = document.querySelectorAll('#page');
-        const url = window.location.href;
-        const paramValue = url.split('?')[0].split('/').pop(); 
+        let selectpage = window.location.href;
+        const paramValue = selectpage.split('?')[0].split('/').pop(); 
         
         pages.forEach((page) => {
             var value = page.getAttribute('value');
@@ -452,12 +448,11 @@
                 page.classList.add('text-gray-700');
             }
         })
-        // script for ...
-        function movepagestart() {
-            console.log('fucntion');
-            pageStart += 4;
-            window.location.href = `/incoming/${pageStart}?start=${pageStart}`;
-        };
+        // // script for ...
+        // function movepagestart() {
+        //     pageStart += 4;
+        //     window.location.href = `/incoming/${pageStart}?start=${pageStart}`;
+        // };
 
         // script for search 
     </script>

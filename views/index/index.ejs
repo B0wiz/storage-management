@@ -85,7 +85,7 @@
 
               <span class="text-sm font-medium"> Dashboard </span>
             </a>
-            <a href="/" class="flex items-center gap-2 rounded-lg px-4 py-2 bg-gray-100 text-gray-700 ">
+            <a href="/warehouse" id="warehouse" class="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-gray-100 hover:text-gray-700 text-white ">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-warehouse">
@@ -97,10 +97,10 @@
                 <rect width="12" height="12" x="6" y="10"></rect>
               </svg>
 
-              <span class="text-sm font-medium"> Warehouse </span>
+              <span  class="text-sm font-medium"> Warehouse </span>
             </a>
 
-            <a href="/product"
+            <a href="/product" id="product"
               class="flex items-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-100 hover:text-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -139,7 +139,7 @@
               </summary>
 
               <nav aria-label="Teams Nav" class="mt-2 flex flex-col px-4 space-y-2">
-                <a href="/incoming/0?start=0"
+                <a href="/incoming/0?start=0" id="incoming"
                   class="flex items-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-100 hover:text-gray-700">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -152,7 +152,7 @@
                   <span class="text-sm font-medium"> Incoming order </span>
                 </a>
 
-                <a href="/outgoing"
+                <a href="/outgoing" id="outgoing"
                   class="flex items-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-100 hover:text-gray-700">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -167,7 +167,7 @@
               </nav>
             </details>
 
-            <a href="/return"
+            <a href="/return" id="return"
               class="flex items-center gap-2 rounded-lg px-4 py-2 text-white hover:bg-gray-100 hover:text-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -257,3 +257,13 @@
 </body>
 
 </html>
+
+<script>
+  const url = new URL(window.location.href) ;
+  var pathname = url.pathname.split("/")[1];
+  const selectValue = document.querySelector(`#${pathname}`)
+
+  selectValue.classList.remove('text-white')
+  selectValue.classList.add('bg-gray-100')
+  selectValue.classList.add('text-gray-700')
+</script>
