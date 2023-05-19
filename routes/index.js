@@ -107,17 +107,36 @@ module.exports = {
         ORDER BY incomingitemsID ASC LIMIT 10 OFFSET " +
       offset +
       ";";
-    db.query(itemquery, (err, result) => {
-      if (err) {
-        res.redirect("/");
-      }
-      item = result;
-      res.render("incomingorder/incomingorder.ejs", {
-        item,
-        warehouse,
-        pageStart,
-      });
-    });
+      const allitemquery =
+      "SELECT incomingitems.*, product.productname AS productname, category.categoryname AS categoryname, \
+        product.productprice AS productprice ,product.productprice * incomingitems.incomingitemquantity AS price \
+        ,warehouse.warehousename AS warehouse, incomingorder.incomingorderdate AS date\
+        ,CONCAT(users.userfname, ' ', users.userlname) AS users\
+        FROM incomingitems \
+        JOIN product ON incomingitems.productID = product.productID\
+        JOIN category ON product.categoryID = category.categoryID\
+        JOIN warehouse ON incomingitems.warehouseID = warehouse.warehouseID\
+        JOIN incomingorder ON incomingitems.incomingorderID = incomingorder.incomingorderID\
+        JOIN users ON incomingorder.userID = users.userID\
+        ORDER BY incomingitemsID ASC;";
+        db.query(allitemquery, (err, result) => {
+          if (err) {
+            res.redirect("/");
+          }
+          allitem = result;
+          db.query(itemquery, (err, result) => {
+            if (err) {
+              res.redirect("/");
+            }
+            item = result;
+            res.render("incomingorder/incomingorder.ejs", {
+              item,
+              warehouse,
+              pageStart,
+              allitem
+            });
+          });
+        });
   },
 
   getOutgoingorderPage: (req, res) => {

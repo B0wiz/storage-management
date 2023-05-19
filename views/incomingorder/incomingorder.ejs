@@ -35,7 +35,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input type="text" id="simple-search"
+                            <input type="text" id="search"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2"
                                 placeholder="Search" required="" />
                         </div>
@@ -249,8 +249,8 @@
                                                 <%= item.warehouse %>
                                             </th>
                                             <td class="px-4 py-3"><%= item.users%></td>
-                                            <th scope="row"
-                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                                            <th scope="row"  value="<%= item.productname %>"
+                                                class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap product-name">
                                                 <%= item.productname %>
                                             </th>
                                             <td class="px-4 py-3">
@@ -304,10 +304,12 @@
                         <span class="text-sm font-normal text-gray-500">
                             Showing
                             <span class="font-semibold text-gray-900">1-10</span>
-                        </span>
+                            of
+                            <span class="font-semibold text-gray-900"><%= allitem.length %></span>
+                          </span>
                         <ul class="inline-flex items-stretch -space-x-px">
                             <% var page = []; %>
-                            <% var numPages = Math.ceil(item.length / 10);  %>
+                            <% var numPages = Math.ceil(allitem.length / 10);  %>
                             <!-- Math.ceil(item.length / 10); -->
                             <% var pageCount = pageStart+5; %>
                             <% if(pageStart-1 >= 0 ) {%>
@@ -396,42 +398,48 @@
     </main>
 
     <script>
-        // script for select warehouse
+        // script for select warehouse and search function
         const checkboxes = document.querySelectorAll('#Selectwarehouse');
         var selectedWarehouses = [];
+
         checkboxes.forEach((checkbox) => {
             checkbox.addEventListener('change', () => {
                 if (checkbox.checked) {
                     selectedWarehouses.push(checkbox.value);
-                    const selected = selectedWarehouses.map(id => `[id="${id}"]`).join(',')+ ', [id="header"]';
-                    const show = document.querySelectorAll(selected);
-                    const hide = document.querySelectorAll(`tr:not(${selected})`);
-                    hide.forEach((element) => {
-                            element.classList.add('hidden');
-                    });
-                    show.forEach((element) => {
-                            element.classList.remove('hidden');
-                    });
                 } else {
                     const index = selectedWarehouses.indexOf(checkbox.value);
                     if (index !== -1) {
                         selectedWarehouses.splice(index, 1);
                     }
-                    if(selectedWarehouses.length === 0){
-                        const unhide = document.querySelectorAll(`tr`);
-                        unhide.forEach((element) => {
-                            element.classList.remove('hidden');
-                        });
-                    }else{
-                        var unselected = selectedWarehouses.map(id => `[id="${id}"]`).join(',')+ ', [id="header"]';
-                        const hide = document.querySelectorAll(`tr:not(${unselected})`);
-                        hide.forEach((element) => {
-                            element.classList.add('hidden');
-                        });
-                    }
                 }
+                applyFilters();
             });
         });
+
+        const searchbutt = document.querySelector('#search');
+        searchbutt.addEventListener('input', () => {
+            applyFilters();
+        });
+        
+        function applyFilters() {
+            const searchvalue = searchbutt.value.toLowerCase();
+            const rows = document.querySelectorAll('tr:not(#header)');
+            const items = document.querySelectorAll('.product-name');
+
+            rows.forEach((row, index) => {
+                const itemText = items[index].textContent.toLowerCase();
+
+                const warehouseSelected = selectedWarehouses.length === 0 || selectedWarehouses.includes(row.id);
+                const itemMatchesSearch = itemText.includes(searchvalue);
+
+                if (warehouseSelected && itemMatchesSearch) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+
+                }
+            });
+        }
 
         // script showing text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700
         const pages = document.querySelectorAll('#page');
@@ -448,11 +456,5 @@
                 page.classList.add('text-gray-700');
             }
         })
-        // // script for ...
-        // function movepagestart() {
-        //     pageStart += 4;
-        //     window.location.href = `/incoming/${pageStart}?start=${pageStart}`;
-        // };
 
-        // script for search 
     </script>
