@@ -63,34 +63,38 @@
         </div>
 
         <div class="h-full overflow-y-auto  bg-white ">
+        <% if(product.length > 0) %>
+        <% product.forEach((product, index) => {%>
         <div
           class="w-full text-sm font-medium text-gray-900 bg-white   "
         >
         
-          <button
+          <a  href="/product/<%= product.productID %>"
             aria-current="true"
             type="button"
             class="w-full px-4 py-3 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100"
           >
-            IDOLF White chair
-          </button>
+            <%= product.productname  %>
+          </a>
+
         </div>
+        <% });  %>
         </div>
       </aside>
 
         <!-- create the product display block -->
       <section class="bg-white">
         <div class="py-8 px-4 mx-auto max-w-4xl lg:py-16">
-            <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl ">Apple iMac 25"</h2>
-            <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl ">$2999</p>
+            <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl "><%= productselect[0].productname %></h2>
+            <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl ">$ <%= productselect[0].productprice %></p>
             <dl>
                 <dt class="mb-2 font-semibold leading-none text-gray-900 ">Details</dt>
-                <dd class="mb-4 font-light text-gray-500 sm:mb-5 ">Standard glass ,3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US.</dd>
+                <dd class="mb-4 font-light text-gray-500 sm:mb-5 "><%= productselect[0].productdescription %></dd>
             </dl>
             <dl class="flex items-center space-x-6">
                 <div>
                     <dt class="mb-2 font-semibold leading-none text-gray-900 ">Category</dt>
-                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 ">Electronics/PC</dd>
+                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 "><%= productselect[0].categoryname %></dd>
                 </div>
                 <div>
                     <dt class="mb-2 font-semibold leading-none text-gray-900 ">Item weight</dt>

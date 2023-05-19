@@ -48,7 +48,7 @@ app.get('/mnw/:id', getUser);
 app.get('/dew/:id', DeleteWarehouse);
 
 // Product page
-app.get('/product', getProductPage);
+app.get('/product/:id', getProductPage);
 
 
 //Incoming order page
