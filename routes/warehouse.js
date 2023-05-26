@@ -1,6 +1,4 @@
 const fs = require("fs");
-let warehouse;
-let user;
 
 module.exports = {
   AddWarehouse: (req, res) => {
@@ -32,15 +30,7 @@ module.exports = {
 
   getWarehouse:(req,res) => {
     let warehouseID = req.params.id
-    let warehousequery = "SELECT * FROM warehouse ORDER BY warehouseID ASC";
     let editquery = "SELECT * FROM warehouse WHERE warehouseID = "+ warehouseID +" ORDER BY warehouseID ASC";
-
-    db.query(warehousequery, (err, result) => {
-        if(err){
-            res.redirect('/');
-        }
-        warehouse = result;
-        });
 
     db.query(editquery, (err, result) => {
         if(err){
@@ -49,7 +39,7 @@ module.exports = {
         }
         res.render('warehouse/edit.ejs', {
             editwh : result,
-            warehouse
+            warehose : global.warehouse
         },)
     });
 
@@ -100,7 +90,7 @@ module.exports = {
         user = result
         res.render('warehouse/manage.ejs', {
             user,
-            warehouse 
+            warehose : global.warehouse 
         },)
     });
   },
@@ -115,7 +105,7 @@ module.exports = {
         }
         res.render('warehouse/editmanage.ejs', {
             userselected : result,
-            warehouse,
+            warehose : global.warehouse,
             user
         },)
     });

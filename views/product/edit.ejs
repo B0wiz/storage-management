@@ -1,0 +1,211 @@
+<%- include ('product.ejs') %>
+
+    <!-- edit product items modal -->
+    <div id="editProductItems" tabindex="-1" aria-hidden="true"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between px-6 py-4 border-b rounded-t">
+                    <div class="mr-3">
+                        <svg aria-hidden="true" class="mr-1 -ml-1" width="32" height="32" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
+                            </path>
+                            <path fill-rule="evenodd"
+                                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Edit Product Items
+                    </h3>
+                    <a href = "/product/<%= editpro[0].warehouseID %>/<%= editpro[0].productID %>"type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                        data-modal-hide="editProductItems">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </a>
+                </div>
+                <!-- Modal body -->
+                <% if(editpro.length > 0) {%>
+                <div class="">
+                    <form class="" action="/edp/sub/<%= editpro[0].productID %>" method="post">
+                        <div class="items-center px-6 py-4 bg-gray-100 space-y-4">
+                            <div class="flex flex-row space-x-16">
+                                <label for="product name"
+                                    class="flex items-center mb-2 text-sm font-medium text-gray-900">
+                                    Product Name
+                                </label>
+                                <input type="text" id="product_name" name="product_name"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5"
+                                    value="<%= editpro[0].productname %>" required />
+                            </div>
+                            <div class="flex flex-row space-x-10">
+                                <label for="category"
+                                    class="flex items-center mb-2 text-sm font-medium text-gray-900">Product
+                                    Category</label>
+                                <select id="category" name="category"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-2/3 p-2.5">
+                                    <% if(category.length > 0) {%>
+                                        <% category.forEach((category,index) => {%>
+                                    <option value="<%= category.categoryID %>"><%= category.categoryname %></option>
+                                    <% }); %>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="px-6 pt-4">
+                            <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Product
+                                description</label>
+                            <textarea id="description" name="description" rows="4"
+                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-blue-500" required><%= editpro[0].productdescription %></textarea>
+                        </div>
+                        <div class="px-6 py-4 grid gap-4 md:grid-cols-3">
+                            <!-- <div class="mb-4 flex flex-row space-x-4">  -->
+
+                            <div>
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900">Purchase
+                                    price
+                                </label>
+                                <input type="number" name="price" id="price"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    value="<%= editpro[0].productprice %>" min="0" required="" />
+                            </div>
+                            <div>
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900">Selling
+                                    price
+                                </label>
+                                <input type="number" name="sell" id="sell"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    value="<%= editpro[0].productsellingcost %>" min="1" required="" />
+                                <!-- </div>  -->
+                            </div>
+                            <div>
+                                <label for="item-weight" class="block mb-2 text-sm font-medium text-gray-900">Product
+                                    quantity
+                                </label>
+                                <input type="number" name="quantity" id="quantity"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                    value="<%= editpro[0].productquantity %>" min="0" required="" />
+                            </div>
+                        </div>
+                        <div class="px-6 py-4 bg-gray-100 space-y-5" id="textBoxContainer">
+                            <div class="flex flex-row space-x-10">
+                                <label for="product name"
+                                    class="flex items-center mb-2 text-sm font-medium text-gray-900">
+                                    Delivery 1
+                                </label>
+
+                                <input type="text" id="product_name"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-2.5"
+                                    placeholder="" required />
+
+                                <div class="flex space-x-2">
+                                    <button type="button" onclick="addTextBox()"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus">
+                                            <line x1="12" x2="12" y1="5" y2="19"></line>
+                                            <line x1="5" x2="19" y1="12" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                    <button type="button" onclick="removeTextBox()" id="removeButton"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus">
+                                            <line x1="5" x2="19" y1="12" y2="12"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <% }; %>
+
+                            <!-- script for add and remove input delivery text box -->
+                            <script>
+                                let textBoxCount = 1;
+
+                                function addTextBox() {
+                                    var container =
+                                        document.getElementById("textBoxContainer");
+
+                                    // Create a new text box element
+                                    var newTextBox = document.createElement("div");
+                                    newTextBox.className = "flex flex-row space-x-10";
+
+                                    var labelElement = document.createElement("label");
+                                    labelElement.className =
+                                        "flex items-center mb-2 text-sm font-medium text-gray-900";
+                                    labelElement.textContent = "Delivery " + ++textBoxCount;
+
+                                    var inputElement = document.createElement("input");
+                                    inputElement.type = "text";
+                                    inputElement.className =
+                                        "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-2.5";
+                                    inputElement.placeholder = "";
+                                    inputElement.required = true;
+
+                                    // Append the new label and input to the new text box container
+                                    newTextBox.appendChild(labelElement);
+                                    newTextBox.appendChild(inputElement);
+
+                                    // Append the new text box container to the main container
+                                    container.appendChild(newTextBox);
+
+                                    // Disable the remove button if there is only one delivery text box
+                                    var removeButton =
+                                        document.getElementById("removeButton");
+                                    removeButton.disabled = textBoxCount === 1;
+                                }
+
+                                function removeTextBox() {
+                                    var container =
+                                        document.getElementById("textBoxContainer");
+
+                                    // Get the last dynamically added text box
+                                    var lastTextBox = container.lastElementChild;
+
+                                    // Remove the last text box if it exists
+                                    if (lastTextBox) {
+                                        container.removeChild(lastTextBox);
+                                        textBoxCount--;
+
+                                        // Disable the remove button if there is only one delivery text box
+                                        var removeButton =
+                                            document.getElementById("removeButton");
+                                        removeButton.disabled = textBoxCount === 1;
+                                    }
+                                }
+                            </script>
+                        </div>
+                </div>
+                <!--  Modal footer  -->
+                <div class="flex items-center px-6 py-4 space-x-2 border-t border-gray-200 rounded-b">
+                    <button type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                        Confirm
+                    </button>
+                </form>
+                    <a href = "/product/<%= editpro[0].warehouseID %>/<%= editpro[0].productID %>"type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const toggle = new Modal(document.getElementById("editProductItems"));
+          toggle.show();
+        })
+      </script>

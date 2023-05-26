@@ -1,7 +1,8 @@
 <%- include ('../index/index.ejs')%>
 
 <main class="flex-auto">
-    <nav class=" bg-white w-full z-20 top-0 left-0 border-b border-gray-200">
+  <!-- page nav bar -->
+  <nav class="bg-white w-full z-20 top-0 left-0 border-b border-gray-200">
     <div
       class="max-w-screen-xl flex flex-wrap items-center justify-between p-4"
     >
@@ -27,90 +28,700 @@
             <line x1="12" x2="12" y1="22" y2="12"></line>
           </svg>
         </div>
-        <span class="self-center text-2xl font-semibold whitespace-nowrap">
+        <span
+          class="self-center text-2xl font-semibold whitespace-nowrap"
+        >
           Product
         </span>
       </div>
     </div>
-    </nav>
+  </nav>
 
-    <div class="flex">
-      <aside
+  <!-- page content -->
+  <div class="flex">
+    <!-- item list -->
+    <aside
       id="default-sidebar"
-      class="top-0 left-0 z-40 w-72 border-r"
+      class="top-0 left-0 z-40 max-w-fit border-r"
       aria-label="Sidebar"
     >
-      <!-- create header bar -->
-        <div
-        class="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200"
+      <!-- item list header -->
+      <div
+        class="flex items-center gap-10 justify-between px-4 py-2 bg-white border-b border-gray-200 space-x-5"
       >
-        <span class="self-center text-2xl font-semibold whitespace-nowrap">
+        <span
+          class="self-center text-2xl font-semibold whitespace-nowrap"
+        >
           Items
         </span>
         <!-- button  -->
-        <div class="flex md:order-2">
-          <button
-            type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0"
-            data-te-toggle="modal"
-            data-te-target="#exampleModalCenter"
-            data-te-ripple-init
-            data-te-ripple-color="light"
-          >
-            Add new items
-          </button>
+        <div class="flex space-x-2 md:order-2">
+          <!-- category filter -->
+          <div>
+            <button
+              id="filterDropdownButton"
+              data-dropdown-toggle="filterDropdown"
+              data-dropdown-offset-skidding="-5"
+              class="w-full md:w-auto flex items-center justify-center py-2 px-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                class="text-gray-400"
+                height="23"
+                width="23"
+                viewbox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+            <div
+              id="filterDropdown"
+              class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow"
+            >
+             <h6 class="mb-3 text-sm font-medium text-gray-900">
+                Choose category
+              </h6>
+              <ul
+                class="space-y-2 text-sm"
+                aria-labelledby="filterDropdownButton"
+              >
+              <% if (category.length > 0) {
+                category.forEach((category, index) => { %>
+                  <li class="flex items-center">
+                    <input
+                      id="Selectcategory"
+                      type="checkbox"
+                      value="<%= category.categoryID %>"
+                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500"
+                    />
+                    <label
+                      for="<%= category.categoryname %>"
+                      class="ml-2 text-sm font-medium text-gray-900"
+                    ><%= category.categoryname %></label>
+                  </li>
+                <% }); }; %>
+              </ul>
+            </div>
+          </div>
+          
+          <!--  Dropdown menu  -->
+          <div>
+            <button
+              id="dropdownDefaultButton"
+              data-dropdown-toggle="dropdownOffset"
+              data-dropdown-offset-distance="10"
+              data-dropdown-offset-skidding="-45"
+              class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class=""
+                height="24"
+                width="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-chevron-down"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div
+              id="dropdownOffset"
+              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40"
+            >
+              <ul
+                class="py-2 text-sm text-gray-700"
+                aria-labelledby="dropdown"
+              >
+                <li>
+                  <a
+                    href="#"
+                    class="block px-4 py-2 hover:bg-gray-100"
+                    data-modal-target="addNewItems"
+                    data-modal-toggle="addNewItems"
+                  >
+                    Add new items
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="block px-4 py-2 hover:bg-gray-100"
+                    // data-modal-target="addNewCategory"
+                    // data-modal-toggle="addNewCategory"
+                  >
+                    Add new category
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    class="block px-4 py-2 hover:bg-gray-100"
+                  >
+                    Edit category
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        </div>
-
-        <div class="h-full overflow-y-auto  bg-white ">
-        <% if(product.length > 0) %>
-        <% product.forEach((product, index) => {%>
-        <div
-          class="w-full text-sm font-medium text-gray-900 bg-white   "
-        >
-        
-          <a  href="/product/<%= product.productID %>"
+      </div>
+      <!-- items list button -->
+      <div class="h-full overflow-y-auto bg-white">
+        <div class="w-full text-sm font-medium text-gray-900 bg-white">
+          <% if (product.length > 0) {%>
+            <% product.forEach((product, index) => { %>
+          <a href="/product/<%= product.warehouseID %>/<%= product.productID%> "
+            id="<%=  product.categoryID %>"
+            name = "product"
             aria-current="true"
             type="button"
             class="w-full px-4 py-3 font-medium text-left border-b border-gray-200 cursor-pointer hover:bg-gray-100"
           >
-            <%= product.productname  %>
+            <%= product.productname %>
           </a>
-
+          <% }); %>
+          <% }; %>
         </div>
-        <% });  %>
-        </div>
-      </aside>
+      </div>
+    </aside>
 
-        <!-- create the product display block -->
-      <section class="bg-white">
-        <div class="py-8 px-4 mx-auto max-w-4xl lg:py-16">
-            <h2 class="mb-2 text-xl font-semibold leading-none text-gray-900 md:text-2xl "><%= productselect[0].productname %></h2>
-            <p class="mb-4 text-xl font-extrabold leading-none text-gray-900 md:text-2xl ">$ <%= productselect[0].productprice %></p>
-            <dl>
-                <dt class="mb-2 font-semibold leading-none text-gray-900 ">Details</dt>
-                <dd class="mb-4 font-light text-gray-500 sm:mb-5 "><%= productselect[0].productdescription %></dd>
-            </dl>
-            <dl class="flex items-center space-x-6">
-                <div>
-                    <dt class="mb-2 font-semibold leading-none text-gray-900 ">Category</dt>
-                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 "><%= productselect[0].categoryname %></dd>
-                </div>
-                <div>
-                    <dt class="mb-2 font-semibold leading-none text-gray-900 ">Item weight</dt>
-                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 ">12kg</dd>
-                </div>
-            </dl>
-            <div class="flex items-center space-x-4">
-                <button type="button" class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center  ">
-                    <svg aria-hidden="true" class="mr-1 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
-                    Edit
-                </button>   
-                <button type="button" class="inline-flex items-center text-white bg-red-600 hover:bg-red-700  font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
-                    <svg aria-hidden="true" class="w-5 h-5 mr-1.5 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                    Delete
-                </button> 
+    <!-- product display -->
+    <% if(productselect.length > 0){ %>
+    <section class="bg-white">
+      
+      <!-- header product display -->
+      <header
+        class="w-auto bg-blue-100 z-20 top-0 left-0 border-b border-gray-200"
+      >
+        <div
+          class="flex justify-between items-center mx-auto p-4 space-x-5"
+        >
+          <div
+            class="flex flex-col md:flex-row space-y-2 md:space-y-0 items-center md:space-x-3"
+          >
+            <div class="flex">
+              <span
+                class="self-center text-2xl font-semibold whitespace-nowrap"
+              >
+                <%= productselect[0].productname  %>
+              </span>
             </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <a href="/edp/<%= productselect[0].productID  %>"
+              type="button"
+              class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            >
+              <svg
+                aria-hidden="true"
+                class="mr-1 -ml-1 w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"
+                ></path>
+                <path
+                  fill-rule="evenodd"
+                  d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Edit
+            </a>
+            <button
+              type="button"
+              class="inline-flex items-center text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              // data-modal-target="deleteProductItems"
+              // data-modal-toggle="deleteProductItems"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-5 h-5 mr-1.5 -ml-1"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              Delete
+            </button>
+          </div>
         </div>
-      </section>
-    </div>
+      </header>
+      <script>
+        const checkboxes = document.querySelectorAll('#Selectcategory');
+        var selectedWarehouses = [];
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    selectedWarehouses.push(checkbox.value);
+                } else {
+                    const index = selectedWarehouses.indexOf(checkbox.value);
+                    if (index !== -1) {
+                        selectedWarehouses.splice(index, 1);
+                    }
+                }
+                applyFilters();
+            });
+        });
+        
+        function applyFilters() {
+            const selectElements = document.querySelectorAll('a[name="product"]');
+
+            selectElements.forEach((element, index) => {
+                const warehouseSelected = selectedWarehouses.length === 0 || selectedWarehouses.includes(element.id);
+
+                if (warehouseSelected) {
+                  element.style.display = 'block';
+                } else {
+                  element.style.display = 'none';
+                }
+            });
+        }
+      </script>
+      <!-- product display content -->
+      <div class="flex m-5 space-x-5">
+        <div class="flex min-w-fit">
+          <img
+            class="w-64 h-64"
+            src="https://www.ikea.com/th/th/images/products/adde-chair-white__0728280_pe736170_s5.jpg?f=xl"
+            alt="dashboard image"
+          />
+        </div>
+        <div>
+          <h2
+            class="mb-4 text-xl font-semibold leading-none text-gray-950 md:text-2xl"
+          >
+            Primary Detail
+          </h2>
+          <div class="">
+            <dt class="mb-2 font-semibold leading-none text-gray-900">
+              Product Available
+            </dt>
+            <dd class="mb-4 font-bold text-gray-500 sm:mb-5 md:text-2xl">
+              <%= productselect[0].productquantity %>
+            </dd>
+          </div>
+          <dl>
+            <dt class="mb-2 font-semibold leading-none text-gray-900">
+              Product Description
+            </dt>
+            <dd class="mb-4 font-light text-gray-500 sm:mb-5">
+              <%= productselect[0].productdescription  %>
+            </dd>
+          </dl>
+          <dl class="flex items-center space-x-6">
+            <div>
+              <dt class="mb-2 font-semibold leading-none text-gray-900">
+                Category
+              </dt>
+              <dd class="mb-4 font-light text-gray-500 sm:mb-5">
+                <%= productselect[0].categoryname %>
+              </dd>
+            </div>
+            <div>
+              <dt class="mb-2 font-semibold leading-none text-gray-900">
+                Warehouse Name
+              </dt>
+              <dd class="mb-4 font-light text-gray-500 sm:mb-5">
+                <%= productselect[0].warehousename  %>
+              </dd>
+            </div>
+          </dl>
+          <div class="flex space-x-20 mt-5">
+            <div>
+              <h2
+                class="mb-4 text-xl font-semibold leading-none text-gray-950 md:text-2xl"
+              >
+                Price Detail
+              </h2>
+              <div class="flex space-x-5 mb-2">
+                <dt class="font-semibold leading-none text-gray-900">
+                  Purchase price :
+                </dt>
+                <dd class="font-light leading-none text-gray-500">
+                  <%= productselect[0].productprice  %>฿
+                </dd>
+              </div>
+              <div class="flex space-x-5">
+                <dt class="font-semibold leading-none text-gray-900">
+                  Selling price :
+                </dt>
+                <dd class="font-light leading-none text-gray-500">
+                  <%= productselect[0].productsellingcost  %>฿
+                </dd>
+              </div>
+            </div>
+            <div>
+              <h2
+                class="mb-4 text-xl font-semibold leading-none text-gray-950 md:text-2xl"
+              >
+                Delivery Detail
+              </h2>
+              <div class="flex text-center justify-center space-x-5 mb-2">
+                <dt class="font-semibold leading-none text-gray-900">
+                  Available delivery service
+                </dt>
+                <div class="space-y-2 text-left">
+                  <dd class="font-light leading-none text-gray-500">
+                    Flash
+                  </dd>
+                  <dd class="font-light leading-none text-gray-500">
+                    Kerry
+                  </dd>
+                  <dd class="font-light leading-none text-gray-500">
+                    Thai Post
+                  </dd>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <% } %>
+
+    <div
+          id="addNewItems"
+          tabindex="-1"
+          aria-hidden="true"
+          class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+        >
+          <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow">
+              <!-- Modal header -->
+              <div
+                class="flex items-start justify-between px-6 py-4 border-b rounded-t"
+              >
+                <div class="mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-package"
+                  >
+                    <path d="M16.5 9.4 7.55 4.24"></path>
+                    <path
+                      d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                    ></path>
+                    <polyline points="3.29 7 12 12 20.71 7"></polyline>
+                    <line x1="12" x2="12" y1="22" y2="12"></line>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900">
+                  New Product Items
+                </h3>
+                <button
+                  type="button"
+                  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  data-modal-hide="addNewItems"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+              </div>
+              <!-- Modal body -->
+              <div class="">
+                <form class="" action="/adp/1" method="post">
+                  <div class="items-center px-6 py-4 bg-gray-100 space-y-4">
+                    <div class="flex flex-row space-x-16">
+                      <label
+                        for="product name"
+                        class="flex items-center mb-2 text-sm font-medium text-gray-900"
+                      >
+                        Product Name
+                      </label>
+                      <input
+                        type="text"
+                        id="product_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2.5"
+                        placeholder="IDOLF Black chair"
+                        required
+                      />
+                    </div>
+                    <div class="flex flex-row space-x-10">
+                      <label
+                        for="product name"
+                        class="flex items-center mb-2 text-sm font-medium text-gray-900"
+                      >
+                        Warehouse Name
+                      </label>
+                      <select
+                        id="warehouse_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-2/3 p-2.5"
+                      >
+                        <option selected="">Choose warehouse</option>
+                        <option value="">Warehouse 1</option>
+                        <option value="">Warehouse 2</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-row space-x-10">
+                      <label
+                        for="category"
+                        class="flex items-center mb-2 text-sm font-medium text-gray-900"
+                        >Product Category</label
+                      >
+                      <select
+                        id="category"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-2/3 p-2.5"
+                      >
+                        <option selected="">Choose category</option>
+                        <option value="TV">Decoration stuff</option>
+                        <option value="TV">Furniture</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="px-6 pt-4">
+                    <label
+                      for="description"
+                      class="block mb-2 text-sm font-medium text-gray-900"
+                      >Product description</label
+                    >
+                    <textarea
+                      id="description"
+                      rows="4"
+                      class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-blue-500"
+                      placeholder="Write a description..."
+                    ></textarea>
+                  </div>
+                  <div class="px-6 py-4 grid gap-4 md:grid-cols-3">
+                    <!-- <div class="mb-4 flex flex-row space-x-4">  -->
+
+                    <div>
+                      <label
+                        for="item-weight"
+                        class="block mb-2 text-sm font-medium text-gray-900"
+                        >Purchase price
+                      </label>
+                      <input
+                        type="number"
+                        name="item-weight"
+                        id="item-weight"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                        placeholder="100฿"
+                        min="0"
+                        required=""
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="item-weight"
+                        class="block mb-2 text-sm font-medium text-gray-900"
+                        >Selling price
+                      </label>
+                      <input
+                        type="number"
+                        name="item-weight"
+                        id="item-weight"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                        placeholder="200฿"
+                        min="1"
+                        required=""
+                      />
+                      <!-- </div>  -->
+                    </div>
+                    <div>
+                      <label
+                        for="item-weight"
+                        class="block mb-2 text-sm font-medium text-gray-900"
+                        >Product quantity
+                      </label>
+                      <input
+                        type="number"
+                        name="item-weight"
+                        id="item-weight"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                        placeholder="12"
+                        min="0"
+                        required=""
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="px-6 py-4 bg-gray-100 space-y-5"
+                    id="textBoxContainer"
+                  >
+                    <div class="flex flex-row space-x-10">
+                      <label
+                        for="product name"
+                        class="flex items-center mb-2 text-sm font-medium text-gray-900"
+                      >
+                        Delivery 1
+                      </label>
+
+                      <input
+                        type="text"
+                        id="product_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-2.5"
+                        placeholder=""
+                        required
+                      />
+
+                      <div class="flex space-x-2">
+                        <button
+                          type="button"
+                          onclick="addTextBox()"
+                          class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="23"
+                            height="23"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-plus"
+                          >
+                            <line x1="12" x2="12" y1="5" y2="19"></line>
+                            <line x1="5" x2="19" y1="12" y2="12"></line>
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          onclick="removeTextBox()"
+                          id="removeButton"
+                          class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-minus"
+                          >
+                            <line x1="5" x2="19" y1="12" y2="12"></line>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- script for add and remove input delivery text box -->
+                    <script>
+                      let textBoxCount = 1;
+
+                      function addTextBox() {
+                        var container =
+                          document.getElementById("textBoxContainer");
+
+                        // Create a new text box element
+                        var newTextBox = document.createElement("div");
+                        newTextBox.className = "flex flex-row space-x-10";
+
+                        var labelElement = document.createElement("label");
+                        labelElement.className =
+                          "flex items-center mb-2 text-sm font-medium text-gray-900";
+                        labelElement.textContent = "Delivery " + ++textBoxCount;
+
+                        var inputElement = document.createElement("input");
+                        inputElement.type = "text";
+                        inputElement.className =
+                          "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/3 p-2.5";
+                        inputElement.placeholder = "";
+                        inputElement.required = true;
+
+                        // Append the new label and input to the new text box container
+                        newTextBox.appendChild(labelElement);
+                        newTextBox.appendChild(inputElement);
+
+                        // Append the new text box container to the main container
+                        container.appendChild(newTextBox);
+
+                        // Disable the remove button if there is only one delivery text box
+                        var removeButton =
+                          document.getElementById("removeButton");
+                        removeButton.disabled = textBoxCount === 1;
+                      }
+
+                      function removeTextBox() {
+                        var container =
+                          document.getElementById("textBoxContainer");
+
+                        // Get the last dynamically added text box
+                        var lastTextBox = container.lastElementChild;
+
+                        // Remove the last text box if it exists
+                        if (lastTextBox) {
+                          container.removeChild(lastTextBox);
+                          textBoxCount--;
+
+                          // Disable the remove button if there is only one delivery text box
+                          var removeButton =
+                            document.getElementById("removeButton");
+                          removeButton.disabled = textBoxCount === 1;
+                        }
+                      }
+                    </script>
+                  </div>
+                </form>
+              </div>
+              <!--  Modal footer  -->
+              <div
+                class="flex items-center px-6 py-4 space-x-2 border-t border-gray-200 rounded-b"
+              >
+                <button
+                  data-modal-hide="addNewItems"
+                  type="button"
+                  class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                >
+                  Confirm
+                </button>
+                <button
+                  data-modal-hide="addNewItems"
+                  type="button"
+                  class="text-gray-500 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  </div>

@@ -1,3 +1,10 @@
+global.productselect = {};
+global.product = {};
+global.category = {};
+global.item = {};
+global.warehouse = {};
+
+
 module.exports = {
   getHomePage: (req, res) => {
     let query = "SELECT * FROM warehouse ORDER BY warehouseID ASC";
@@ -6,88 +13,97 @@ module.exports = {
       if (err) {
         res.redirect("/");
       }
-      console.log(result);
+      warehouse = result
       res.render("warehouse/warehouse.ejs", {
-        warehouse: result,
+        warehouse,
       });
     });
   },
 
   getProductPage: (req, res) => {
     var productid = parseInt(req.params.id);
-    if (productid === 0) {
+    var warehouseid = parseInt(req.params.warehouse);
+    if (productid === 0 || warehouseid === 0) {
       let firstproduct =
-        "SELECT productID FROM product ORDER BY productID ASC LIMIT 1";
+        "SELECT * FROM product  ORDER BY warehouseID ASC LIMIT 1";
       db.query(firstproduct, (err, result) => {
         if (err) {
           res.redirect("/");
         }
-        productid = result[0].productID;
-        let productquery = "SELECT * FROM product ORDER BY productID ASC";
+        let fproduct = result;
+        let productquery = "SELECT product.*, category.categoryname AS categoryname FROM product \
+        JOIN category ON product.categoryID = category.categoryID\
+        WHERE product.warehouseID = "+ fproduct[0].warehouseID +" ORDER BY productID ASC";
         let productselectquery =
-          "SELECT product.*, category.categoryname AS categoryname FROM product \
-            JOIN category ON product.categoryID = category.categoryID\
-            WHERE productID = " +
-          productid +
-          " ORDER BY productID ASC";
-
+        "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
+        JOIN category ON product.categoryID = category.categoryID\
+        JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
+        WHERE product.productID = " + fproduct[0].productID + " AND product.warehouseID = "+  fproduct[0].warehouseID  +" ORDER BY productID ASC";
+        let categoryquery = "SELECT * FROM category WHERE warehouseID = "+  fproduct[0].warehouseID +" ORDER BY categoryID ASC";
         // excecuted qurey
         db.query(productquery, (err, result) => {
           if (err) {
             res.redirect("/");
           }
-          let product = result;
+          product = result;
+          db.query(categoryquery, (err, result) => {
+            if (err) {
+              res.redirect("/");
+            }
+            category = result;
           db.query(productselectquery, (err, result) => {
             if (err) {
               res.redirect("/");
             }
+            productselect = result
             res.render('product/product.ejs', {
-                productselect : result,
-                product
+                productselect,
+                product,
+                category
             })
           });
         });
+        });
       });
     } else {
-      let productquery = "SELECT * FROM product ORDER BY productID ASC";
+      let productquery = "SELECT product.*, category.categoryname AS categoryname FROM product \
+        JOIN category ON product.categoryID = category.categoryID\
+        WHERE product.warehouseID = "+  warehouseid  +" ORDER BY productID ASC";
       let productselectquery =
-        "SELECT product.*, category.categoryname AS categoryname FROM product \
+        "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
             JOIN category ON product.categoryID = category.categoryID\
-            WHERE productID = " +
-        productid +
-        " ORDER BY productID ASC";
-
+            JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
+            WHERE product.productID = " + productid + " AND product.warehouseID = "+  warehouseid  +" ORDER BY productID ASC";
+      let categoryquery = "SELECT * FROM category WHERE warehouseID = "+  warehouseid +" ORDER BY categoryID ASC";
       // excecuted qurey
       db.query(productquery, (err, result) => {
         if (err) {
           res.redirect("/");
         }
-        let product = result;
+        product = result;
+        db.query(categoryquery, (err, result) => {
+          if (err) {
+            res.redirect("/");
+          }
+          category = result;
         db.query(productselectquery, (err, result) => {
           if (err) {
             res.redirect("/");
           }
+          productselect = result
           res.render('product/product.ejs', {
-              productselect : result,
-              product
+              productselect,
+              product,
+              category
           })
         });
+      });
       });
     }
   },
 
   getIncomingorderPage: (req, res) => {
-    var item = {};
-    var warehouse = {};
     var pageStart = parseInt(req.query.start);
-
-    let warehousequery = "SELECT * FROM warehouse ORDER BY warehouseID ASC";
-    db.query(warehousequery, (err, result) => {
-      if (err) {
-        res.redirect("/");
-      }
-      warehouse = result;
-    });
 
     var offset = parseInt(req.params.pagestart);
     if (offset !== 0) {
