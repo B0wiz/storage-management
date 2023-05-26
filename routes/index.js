@@ -108,17 +108,7 @@ module.exports = {
       offset +
       ";";
       const allitemquery =
-      "SELECT incomingitems.*, product.productname AS productname, category.categoryname AS categoryname, \
-        product.productprice AS productprice ,product.productprice * incomingitems.incomingitemquantity AS price \
-        ,warehouse.warehousename AS warehouse, incomingorder.incomingorderdate AS date\
-        ,CONCAT(users.userfname, ' ', users.userlname) AS users\
-        FROM incomingitems \
-        JOIN product ON incomingitems.productID = product.productID\
-        JOIN category ON product.categoryID = category.categoryID\
-        JOIN warehouse ON incomingitems.warehouseID = warehouse.warehouseID\
-        JOIN incomingorder ON incomingitems.incomingorderID = incomingorder.incomingorderID\
-        JOIN users ON incomingorder.userID = users.userID\
-        ORDER BY incomingitemsID ASC;";
+      "SELECT * FROM incomingitems";
         db.query(allitemquery, (err, result) => {
           if (err) {
             res.redirect("/");
@@ -140,16 +130,14 @@ module.exports = {
   },
 
   getOutgoingorderPage: (req, res) => {
-    let query = "SELECT * FROM product ORDER BY productID ASC";
-
+    let query = "SELECT * FROM outgoingitems";
     // excecuted qurey
     db.query(query, (err, result) => {
       if (err) {
         res.redirect("/");
       }
-      console.log(result);
-      res.render("product/index.ejs", {
-        product: result,
+      res.render("outgoingorder/outgoingorder.ejs", {
+        warehouse: result,
       });
     });
   },

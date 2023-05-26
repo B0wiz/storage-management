@@ -90,7 +90,7 @@ module.exports = {
 
   getUser: (req,res) =>{
     let warehouseID = req.params.id
-    let query = "SELECT * FROM user WHERE warehouseID = "+ warehouseID +" ORDER BY warehouseID ASC";
+    let query = "SELECT * FROM users WHERE warehouseID = "+ warehouseID +" ORDER BY warehouseID ASC";
     // excecuted qurey
     db.query(query, (err, result) => {
         if(err){
