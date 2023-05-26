@@ -9,7 +9,7 @@ const path = require('path');
 const app = express();
 
 const {getHomePage, getProductPage,getIncomingorderPage,getOutgoingorderPage} = require('./routes/index');//Home page (Warehouse Page)
-const {AddWarehouse, getWarehouse, EditWarehouse, getUser, DeleteEmployee,DeleteWarehouse} = require('./routes/warehouse');//Add warehouse
+const {AddWarehouse, getWarehouse, EditWarehouse, getUser, getUserSelected, EditManage, DeleteEmployee,DeleteWarehouse} = require('./routes/warehouse');//Add warehouse
 
 const PORT = 3000; // Port
 
@@ -44,7 +44,9 @@ app.post('/adw',AddWarehouse);
 app.get('/edw/:id', getWarehouse);
 app.post('/edw/sub/:id', EditWarehouse);
 app.get('/mnw/:id', getUser);
-// app.get('/mnw/deu/:id', DeleteEmployee);
+app.get('/edm/:id', getUserSelected);
+app.post('/edm/sub/:id', EditManage);
+app.get('/dem/:id', DeleteEmployee);
 app.get('/dew/:id', DeleteWarehouse);
 
 // Product page

@@ -56,15 +56,31 @@
                     value="<%= editwh.warehousename %>" required />
                 </div>
               </div>
+              <div class="px-6 pt-4">
+                <label
+                  for="address"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                >
+                  Address
+                </label>
+                <input
+                  id="address" name="address"
+                  type="text"
+                  id="street_address"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  value="<%= editwh.warehouseaddress %>"
+                  required
+                />
+              </div>
               <div class="px-6 py-4 grid gap-4 mb-4 md:grid-cols-2">
                 <!-- <div class="mb-4 flex flex-row space-x-4">  -->
                 <div>
                   <label for="street address" class="block mb-2 text-sm font-medium text-gray-900">
                     Street address
                   </label>
-                  <input type="text" id="address" name="address"
+                  <input type="text" id="street" name="street"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                    value="<%= editwh.warehouseaddress %>" required />
+                    value="<%= editwh.warehousestreet %>" required />
                 </div>
                 <div>
                   <label for="city" class="block mb-2 text-sm font-medium text-gray-900">

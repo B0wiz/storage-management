@@ -1,5 +1,6 @@
 const fs = require("fs");
-var warehouse = {};
+let warehouse;
+let user;
 
 module.exports = {
   AddWarehouse: (req, res) => {
@@ -13,20 +14,18 @@ module.exports = {
         number: req.body.tel,
         email: req.body.email,
         address: req.body.address,
+        street: req.body.street,
         state: req.body.state,
         city: req.body.city,
         zipcode: req.body.zipcode,
     };
 
-    console.log(awarehouse)
-
-    let warehouseQuery = "INSERT INTO warehouse (warehousename, warehousemanager, warehouseemail, warehousenumber,warehouseaddress, warehousestate, warehousecity, warehousezipcode) VALUES ('" + awarehouse.name +"', '" + awarehouse.manager +"', '" + awarehouse.email +"', '" + awarehouse.number +"', '" + awarehouse.address +"','" + awarehouse.state +"','" + awarehouse.city +"','" + awarehouse.zipcode +"')";
+    let warehouseQuery = "INSERT INTO warehouse (warehousename, warehousemanager, warehouseemail, warehousenumber,warehouseaddress,warehousestreet, warehousestate, warehousecity, warehousezipcode) VALUES ('" + awarehouse.name +"', '" + awarehouse.manager +"', '" + awarehouse.email +"', '" + awarehouse.number +"', '" + awarehouse.address +"','" + awarehouse.street +"','" + awarehouse.state +"','" + awarehouse.city +"','" + awarehouse.zipcode +"')";
 
     db.query(warehouseQuery, (err, result) => {
         if (err){
             return res.status(500).send(err);
         }
-        console.log(result);
         res.redirect('/');
     });
   },
@@ -63,6 +62,7 @@ module.exports = {
         number: req.body.tel,
         email: req.body.email,
         address: req.body.address,
+        street: req.body.street,
         state: req.body.state,
         city: req.body.city,
         zipcode: req.body.zipcode,
@@ -74,10 +74,11 @@ module.exports = {
     warehouseemail = '" + ewarehouse.email +"',\
     warehousenumber = '" + ewarehouse.number +"',\
     warehouseaddress = '" + ewarehouse.address +"',\
+    warehousestreet = '" + ewarehouse.street +"',\
     warehousestate = '" + ewarehouse.state +"',\
     warehousecity = '" + ewarehouse.city +"',\
     warehousezipcode = '" + ewarehouse.zipcode +"'\
-    WHERE warehouseID = '"+ warehouseID +"'";
+    WHERE warehouseID = "+ warehouseID +"";
 
     db.query(updateQuery, (err, result) => {
         if (err){
@@ -96,15 +97,84 @@ module.exports = {
         if(err){
             res.redirect('/');
         }
+        user = result
         res.render('warehouse/manage.ejs', {
-            user : result,
+            user,
             warehouse 
         },)
     });
   },
 
+  getUserSelected: (req,res) =>{
+    let userID = req.params.id
+    let query = "SELECT * FROM users WHERE userID = "+ userID +" ORDER BY warehouseID ASC";
+    // excecuted qurey
+    db.query(query, (err, result) => {
+        if(err){
+            res.redirect('/');
+        }
+        res.render('warehouse/editmanage.ejs', {
+            userselected : result,
+            warehouse,
+            user
+        },)
+    });
+  },
+
+  EditManage: (req,res) => {
+    const emanage = {
+        fname: req.body.fname,
+        lname : req.body.lname,
+        account: req.body.account,
+        password: req.body.password,
+        email: req.body.email,
+        phone: req.body.phone,
+        role: req.body.role,
+    };
+    let userID = req.params.id;
+    let updateQuery = "UPDATE users SET \
+    userfname = '" + emanage.fname +"',\
+    userlname = '" + emanage.lname +"',\
+    useraccount = '" + emanage.account +"',\
+    userpassword = '" + emanage.password +"',\
+    useremail = '" + emanage.email +"',\
+    userphone = '" + emanage.phone +"',\
+    userrole = '" + emanage.role +"'\
+    WHERE userID = "+ userID +" ";
+    let query = "SELECT * FROM users WHERE userID = "+ userID +" ORDER BY warehouseID ASC";
+    
+    db.query(query, (err, result) => {
+        if (err){
+            return res.status(500).send(err);
+        }
+        warehouseID = result[0].warehouseID;
+        db.query(updateQuery, (err, result) => {
+            if (err){
+                return res.status(500).send(err);
+            }
+            res.redirect(`/mnw/${warehouseID}`);
+        });
+    });
+
+  },
+
+
   DeleteEmployee: (req,res) => {
-    var ids = req.params.ids.split('&');
+    let userID = req.params.id
+    let deleteQuery = "DELETE FROM users WHERE userID = "+ userID +"";
+    let query = "SELECT * FROM users WHERE userID = "+ userID +" ORDER BY warehouseID ASC";
+    db.query(query, (err, result) => {
+        if (err){
+            return res.status(500).send(err);
+        }
+        warehouseID = result[0].warehouseID;
+        db.query(deleteQuery, (err, result) => {
+            if (err){
+                return res.status(500).send(err);
+            }
+                res.redirect(`/mnw/${warehouseID}`);
+            });
+    });
   },
   
   DeleteWarehouse: (req,res) => {
@@ -115,7 +185,6 @@ module.exports = {
       if (err){
           return res.status(500).send(err);
       }
-      console.log(result);
       res.redirect('/');
   });
   },
