@@ -1,6 +1,26 @@
 const warehouse = require("./warehouse");
 
 module.exports = {
+    AddProduct: (req,res)=> {
+        let warehouseID = req.params.id;
+        const aproduct = {
+            name: req.body.product_name,
+            categoryID: req.body.category,
+            description: req.body.description,
+            price: req.body.price,
+            sell: req.body.sell,
+            quantity: req.body.quantity,
+        };
+        let AddQuery = "INSERT INTO product (productname, categoryID, warehouseID, productdescription, productprice, productsellingcost,productquantity) VALUES ('" + aproduct.name +"', " + aproduct.categoryID +","+ warehouseID +", '" + aproduct.description +"', " + aproduct.price +", " + aproduct.sell +"," + aproduct.quantity +")";
+    
+        db.query(AddQuery, (err, result) => {
+            if (err){
+                return res.status(500).send(err);
+            }
+            res.redirect(`/product/${warehouseID}/0`);
+        });
+    },
+
     getSelectProduct:(req,res) => {
         let productID = req.params.id
         let editquery = "SELECT * FROM product WHERE productID = "+ productID +" ORDER BY warehouseID ASC";
@@ -45,9 +65,22 @@ module.exports = {
                 if (err){
                     return res.status(500).send(err);
                 }
-               let warehouseID = result[0].warehouseID
-            res.redirect(`/product/${warehouseID}/${productID}`);
+               backwarehouse = result[0].warehouseID
+            res.redirect(`/product/${backwarehouse}/${productID}`);
             });
         });
     },
+
+    DeleteProduct: (req,res) => {
+        let productID = req.params.id;
+        let warehouse = req.params.wid;
+        let deletequery = "DELETE FROM product WHERE productID = "+ productID +"";
+
+        db.query(deletequery, (err,result) => {
+            if (err){
+                return res.status(500).send(err);
+            }
+            res.redirect(`/product/${warehouse}/0`);
+        })
+    }
 }

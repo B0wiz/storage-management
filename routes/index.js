@@ -1,9 +1,9 @@
+let warehouse = require("./warehouse");
+
 global.productselect = {};
 global.product = {};
 global.category = {};
 global.item = {};
-global.warehouse = {};
-
 
 module.exports = {
   getHomePage: (req, res) => {
@@ -31,8 +31,9 @@ module.exports = {
           res.redirect("/");
         }
         let fproduct = result;
-        let productquery = "SELECT product.*, category.categoryname AS categoryname FROM product \
+        let productquery = "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
         JOIN category ON product.categoryID = category.categoryID\
+        JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
         WHERE product.warehouseID = "+ fproduct[0].warehouseID +" ORDER BY productID ASC";
         let productselectquery =
         "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
@@ -59,15 +60,17 @@ module.exports = {
             res.render('product/product.ejs', {
                 productselect,
                 product,
-                category
+                category,
+                warehouse
             })
           });
         });
         });
       });
     } else {
-      let productquery = "SELECT product.*, category.categoryname AS categoryname FROM product \
+      let productquery = "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
         JOIN category ON product.categoryID = category.categoryID\
+        JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
         WHERE product.warehouseID = "+  warehouseid  +" ORDER BY productID ASC";
       let productselectquery =
         "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
@@ -94,7 +97,8 @@ module.exports = {
           res.render('product/product.ejs', {
               productselect,
               product,
-              category
+              category,
+              warehouse : global.warehouse
           })
         });
       });
@@ -104,7 +108,6 @@ module.exports = {
 
   getIncomingorderPage: (req, res) => {
     var pageStart = parseInt(req.query.start);
-
     var offset = parseInt(req.params.pagestart);
     if (offset !== 0) {
       offset += 9;
@@ -120,41 +123,105 @@ module.exports = {
         JOIN warehouse ON incomingitems.warehouseID = warehouse.warehouseID\
         JOIN incomingorder ON incomingitems.incomingorderID = incomingorder.incomingorderID\
         JOIN users ON incomingorder.userID = users.userID\
-        ORDER BY incomingitemsID ASC LIMIT 10 OFFSET " +
+        ORDER BY incomingitemsID DESC LIMIT 10 OFFSET " +
       offset +
       ";";
       const allitemquery =
       "SELECT * FROM incomingitems";
+      const allproductquery= "SELECT * FROM product ORDER BY productname ASC"
         db.query(allitemquery, (err, result) => {
           if (err) {
             res.redirect("/");
           }
           allitem = result;
-          db.query(itemquery, (err, result) => {
+          db.query(allproductquery, (err, result) => {
             if (err) {
               res.redirect("/");
             }
-            item = result;
-            res.render("incomingorder/incomingorder.ejs", {
-              item,
-              warehouse,
-              pageStart,
-              allitem
+            let allproduct = result;
+            db.query(itemquery, (err, result) => {
+              if (err) {
+                res.redirect("/");
+              }
+              item = result;
+              res.render("incomingorder/incomingorder.ejs", {
+                item,
+                warehouse : global.warehouse,
+                pageStart,
+                allitem,
+                allproduct
+              });
             });
           });
         });
   },
 
   getOutgoingorderPage: (req, res) => {
-    let query = "SELECT * FROM outgoingitems";
+    var pageStart = parseInt(req.query.start);
+    var offset = parseInt(req.params.pagestart);
+    if (offset !== 0) {
+      offset += 9;
+    }
+    let itemquery = "SELECT outgoingitems.*,product.productname AS productname,\
+    warehouse.warehousename AS warehousename, customers.customersname AS customername,\
+    outgoingorders.outgoingorderdate AS date, delivery.deliverytype AS deliver\
+    FROM outgoingitems\
+    JOIN product ON outgoingitems.productID = product.productID\
+    JOIN warehouse ON outgoingitems.warehouseID = warehouse.warehouseID\
+    JOIN outgoingorders ON outgoingitems.outgoingorderID = outgoingorders.outgoingorderID\
+    JOIN customers ON outgoingorders.customersID = customers.customersID\
+    JOIN delivery ON outgoingitems.deliveryID = delivery.deliveryID\
+    ORDER BY outgoingitemsID DESC LIMIT 10 OFFSET " + offset ;
+    // excecuted qurey
+    let deliverquery = "SELECT * FROM delivery ORDER BY deliveryID ASC";
+    const allitemquery =
+      "SELECT * FROM outgoingitems";
+    const allproductquery= "SELECT * FROM product ORDER BY productname ASC"
+    db.query(allitemquery, (err, result) => {
+      if (err) {
+        res.redirect("/");
+      }
+      allitem = result;
+      db.query(allproductquery, (err, result) => {
+        if (err) {
+          res.redirect("/");
+        }
+        let allproduct = result;
+        db.query(deliverquery, (err, result) => {
+          if (err) {
+            res.redirect("/");
+          }
+          let alldelivery = result;
+        db.query(itemquery, (err, result) => {
+          if (err) {
+            res.redirect("/");
+          }
+          item = result;
+          res.render("outgoingorder/outgoingorder.ejs", {
+            item,
+            warehouse : global.warehouse,
+            pageStart,
+            allitem,
+            allproduct,
+            alldelivery
+          });
+        });
+      });
+      });
+    });
+  },
+
+  getReturnpage :(req,res) =>{
+    let query = "SELECT * FROM returns ORDER BY returnID ASC";
     // excecuted qurey
     db.query(query, (err, result) => {
       if (err) {
         res.redirect("/");
       }
-      res.render("outgoingorder/outgoingorder.ejs", {
-        warehouse: result,
+      returnitem = result
+      res.render("return/return.ejs", {
+        returnitem,
       });
     });
-  },
+  }
 };

@@ -81,7 +81,7 @@
                             </ul>
                         </div>
                     </div>
-                    <button data-modal-target="addNewIncomingOrder" data-modal-toggle="addNewIncomingOrder"
+                    <button id="add-butt" data-modal-target="addNewIncomingOrder" data-modal-toggle="addNewIncomingOrder"
                         class="block text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                         type="button">
                         Add New Incoming order
@@ -93,11 +93,12 @@
         <section>
             <div class="mx-auto max-w-screen-xl">
                 <!-- Start coding here -->
-                <div class="bg-white relative border-b top-10 overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left text-gray-500">
+                <div class="bg-white relative border-b overflow-hidden">
+                    <div class="overflow-x-auto overflow-y-auto">
+                        <table class="w-full text-sm text-gray-500 text-center">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                 <tr id="header" class="h-20">
+                                    <th scope="col" class="px-4 py-3">No.</th>
                                     <th scope="col" class="px-4 py-3">Warehouse</th>
                                     <th scope="col" class="px-4 py-3">Product name</th>
                                     <th scope="col" class="px-4 py-3">User</th>
@@ -115,6 +116,7 @@
                                 <% if(item.length> 0) { %>
                                     <% item.forEach((item,index)=> { %>
                                         <tr class="border-b w-full h-16" id="<%= item.warehouseID %>">
+                                          <td class="px-4 py-3"><%= index+1 %></td>
                                             <th scope="row"
                                                 class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
                                                 <%= item.warehouse %>
@@ -130,13 +132,13 @@
                                             <td class="px-4 py-3">$<%= item.productprice%>
                                             </td>
                                             <td class="px-4 py-3">
-                                                <%= item.incomingitemquantity%>
+                                                <%= item.incomingitemquantity%> 
                                             </td>
                                             <td class="px-4 py-3">$<%= item.price%></td>
                                             <td class="px-4 py-3"><%= new Date(item.date).toLocaleDateString() %></td>
                                             <td class="px-4 py-3 flex items-center justify-end">
                                                 <button id="benq-ex2710q-dropdown-button"
-                                                    data-dropdown-toggle="benq-ex2710q-dropdown"
+                                                    data-dropdown-toggle="benq-ex2710q-dropdown-<%= item.incomingitemsID%>"
                                                     class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none"
                                                     type="button">
                                                     <svg class="w-5 h-5" aria-hidden="true" fill="currentColor"
@@ -145,24 +147,18 @@
                                                             d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                                                     </svg>
                                                 </button>
-                                                <div id="benq-ex2710q-dropdown"
+                                                <div id="benq-ex2710q-dropdown-<%= item.incomingitemsID  %>"
                                                     class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow">
-                                                    <ul class="py-1 text-sm text-gray-700"
-                                                        aria-labelledby="benq-ex2710q-dropdown-button">
-                                                        <li>
-                                                            <a href="/edin/:id"
-                                                                class="block py-2 px-4 hover:bg-gray-100">Edit</a>
-                                                        </li>
-                                                    </ul>
                                                     <div class="py-1">
-                                                        <a href="#"
-                                                            class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Delete</a>
+                                                      <a href="/dei/<%= item.incomingitemsID %>" class="block px-4 py-2 hover:bg-gray-100">
+                                                        Delete
+                                                    </a>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
                                         <% }); %>
-                                            <% }; %>
+                                        <% }; %>
                             </tbody>
                         </table>
                     </div>
@@ -325,10 +321,27 @@
               </div>
               <!-- Modal body -->
               <div class="">
-                <form class="" action="/asd" method="post">
+                <form class="" action="/aio" method="post">
                   <div
                     class="flex flex-row space-x-10 items-center px-6 py-4 bg-gray-100"
                   >
+                  <div class="w-2/4">
+                    <label
+                      for="warehouse"
+                      class="block mb-2 text-sm font-medium text-gray-900 "
+                      >Warehouse Name</label
+                    >
+                    <select
+                      id="warehouse" name="warehouse"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                    >
+                      <% if(warehouse.length > 0) { %>
+                        <% warehouse.forEach((warehouse,index)=>{ %>
+                      <option id="warehouseoption" value="<%= warehouse.warehouseID %>"><%= warehouse.warehousename %></option>
+                      <% });}; %>
+                    </select>
+                  </div>
+                  <div>
                     <label
                       for="product name"
                       class="block mb-2 text-sm font-medium text-gray-900"
@@ -355,30 +368,27 @@
                       </div>
                       <input
                         datepicker
-                        type="text"
+                        id="date" name="date"
+                        type="date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                         placeholder="Select date"
                       />
                     </div>
                   </div>
+                  </div>
 
-                  <div class="px-6 py-4 grid gap-4 mb-4 md:grid-cols-2">
+                  <div id="formblock" class="px-6 py-4 grid gap-4 mb-4 md:grid-cols-2">
                     <!-- <div class="mb-4 flex flex-row space-x-4">  -->
                     <div>
                       <label
-                        for="category"
+                        for="product"
                         class="block mb-2 text-sm font-medium text-gray-900"
                         >Product Name</label
                       >
                       <select
-                        id="category"
+                        id="product_name" name="product_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                       >
-                        <option selected="">IDOLF White chair</option>
-                        <option value="TV">IDOLF Black chair</option>
-                        <option value="PC">IDOLF Green chair</option>
-                        <option value="GA">IDOLF Red chair</option>
-                        <option value="PH">IDOLF Pink chair</option>
                       </select>
                     </div>
                     <div>
@@ -389,14 +399,33 @@
                       </label>
                       <input
                         type="number"
-                        name="item-weight"
-                        id="item-weight"
+                        name="quantity"
+                        id="quantity"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                         placeholder="12"
                         min="1"
                         required=""
                       />
                     </div>
+                  </div>
+                  <div class="relative mb-2 transform-translate-x-1/2 w-full space-x-2 flex justify-center items-center ">
+                    <button type="button" onclick="addBlockform()"
+                      class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="lucide lucide-plus">
+                        <line x1="12" x2="12" y1="5" y2="19"></line>
+                        <line x1="5" x2="19" y1="12" y2="12"></line>
+                      </svg>
+                    </button>
+                    <button type="button" onclick="removeBlockform()" id="removeButton"
+                    class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-2.5 py-2.5 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" class="lucide lucide-minus">
+                      <line x1="5" x2="19" y1="12" y2="12"></line>
+                    </svg>
+                  </button>
                   </div>
               </div>
               <!--  Modal footer  -->
@@ -481,5 +510,69 @@
                 page.classList.add('text-gray-700');
             }
         })
+        let addbutt = document.querySelector('#add-butt');
+        addbutt.addEventListener('click', () => {
+            const warehouseSelect = document.querySelector('select#warehouse');
+            applyProduct()  
 
-    </script>
+            warehouseSelect.addEventListener('change', function() {
+              applyProduct()
+        });
+      });
+
+        function applyProduct(){
+          const warehouseSelect = document.querySelector('select#warehouse');
+          const selectedOption = warehouseSelect.options[warehouseSelect.selectedIndex];
+          const selectedWarehouseID = selectedOption.value;
+            
+          const selects = document.querySelectorAll('select#product_name');
+          selects.forEach((select) => {
+          select.innerHTML = '';
+          const allproduct = JSON.parse('<%- JSON.stringify(allproduct) %>');
+          const filteredProducts = allproduct.filter(item => parseInt(item.warehouseID) === parseInt(selectedWarehouseID));  
+          filteredProducts.forEach((product, index) => {
+              select.innerHTML += `<option value = "${product.productID}">${product.productname}</option>`
+          });
+        });
+        }
+
+        function addBlockform()
+        {
+          const block = document.querySelector('#formblock');
+          block.innerHTML += '<div>\
+                      <label\
+                        for="product"\
+                        class="block mb-2 text-sm font-medium text-gray-900"\
+                        >Product Name</label\
+                      >\
+                      <select\
+                        id="product_name" name="product_name"\
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"\
+                      >\
+                      </select>\
+                    </div>\
+                    <div>\
+                      <label\
+                        for="item-weight"\
+                        class="block mb-2 text-sm font-medium text-gray-900"\
+                        >Product quantity\
+                      </label>\
+                      <input\
+                        type="number"\
+                        name="quantity"\
+                        id="quantity"\
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"\
+                        placeholder="12"\
+                        min="1"\
+                        required=""\
+                      />\
+                    </div>';
+                    applyProduct()
+        }
+        
+        function removeBlockform(){
+          const block = document.querySelector('#formblock');
+          block.lastElementChild.remove();
+          block.lastElementChild.remove();
+        }
+  </script>

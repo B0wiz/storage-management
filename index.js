@@ -8,9 +8,12 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const app = express();
 
-const {getHomePage, getProductPage,getIncomingorderPage,getOutgoingorderPage} = require('./routes/index');//Home page (Warehouse Page)
+
+const {getHomePage, getProductPage,getIncomingorderPage,getOutgoingorderPage,getReturnpage} = require('./routes/index');//Home page (Warehouse Page)
 const {AddWarehouse, getWarehouse, EditWarehouse, getUser, getUserSelected, EditManage, DeleteEmployee,DeleteWarehouse} = require('./routes/warehouse');//Add warehouse
-const {getSelectProduct,EditProduct}  = require('./routes/product.js');
+const {getSelectProduct,EditProduct, AddProduct, DeleteProduct}  = require('./routes/product.js');
+const { AddIncomingOrder, DeleteIncoming } = require('./routes/incoming');
+const { AddOutgoingOrder,Deleteoutgoing } = require('./routes/outgoing');
 
 const PORT = 3000; // Port
 
@@ -51,16 +54,36 @@ app.get('/dem/:id', DeleteEmployee);
 app.get('/dew/:id', DeleteWarehouse);
 
 // Product page
-app.get('/product/:warehouse/:id', getProductPage);
+function getWarehouseData(req, res, next) {
+  let query = "SELECT * FROM warehouse ORDER BY warehouseID ASC";
+  // excecuted qurey
+  db.query(query, (err, result) => {
+    if (err) {
+      res.redirect("/");
+    }
+    global.warehouse = result
+  });
+  next();
+}
+
+app.get('/product/:warehouse/:id',getWarehouseData , getProductPage);
+app.post('/adp/:id', AddProduct);
 app.get('/edp/:id', getSelectProduct);
 app.post('/edp/sub/:id', EditProduct);
+app.get('/dep/:wid/:id', DeleteProduct)
 
 
 //Incoming order page
-app.get('/incoming/:pagestart', getIncomingorderPage);
+app.get('/incoming/:pagestart',getWarehouseData, getIncomingorderPage);
+app.post('/aio', AddIncomingOrder)
+app.get('/dei/:id', DeleteIncoming)
 
 // Outgoing order page
-app.get('/outgoing/', getOutgoingorderPage);
+app.get('/outgoing/:pagestart',getWarehouseData, getOutgoingorderPage);
+app.post('/ado', AddOutgoingOrder)
+app.get('/deo/:id', Deleteoutgoing)
 
+// Return page
+app.get('/return/:pagestart',getWarehouseData, getReturnpage);
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
