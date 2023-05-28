@@ -1,5 +1,3 @@
-let warehouse = require("./warehouse");
-
 global.productselect = {};
 global.product = {};
 global.category = {};
@@ -20,7 +18,7 @@ module.exports = {
       }
       warehouse = result
       res.render("warehouse/warehouse.ejs", {
-        warehouse,
+        warehouse, 
       });
     });
   },
@@ -30,23 +28,26 @@ module.exports = {
     var warehouseid = parseInt(req.params.warehouse);
     if (productid === 0 && warehouseid === 0) {
       let firstproduct =
-        "SELECT * FROM product  ORDER BY warehouseID ASC LIMIT 1";
+        "SELECT * FROM product  ORDER BY productID ASC LIMIT 1";
       db.query(firstproduct, (err, result) => {
         if (err) {
+          console.log('err')
           res.redirect("/");
         }
-        let fproduct = result;
+        if (result.length > 0) {
+        let warehouseidfirst = result[0].warehouseID;
+        let productidfirst = result[0].productID;
         let productquery = "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
         JOIN category ON product.categoryID = category.categoryID\
         JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
-        WHERE product.warehouseID = "+ fproduct[0].warehouseID +" ORDER BY productID ASC";
+        WHERE product.warehouseID = "+warehouseidfirst +" ORDER BY productID ASC";
         let productselectquery =
         "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
         JOIN category ON product.categoryID = category.categoryID\
         JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
-        WHERE product.productID = " + fproduct[0].productID + " AND product.warehouseID = "+  fproduct[0].warehouseID  +" ORDER BY productID ASC";
-        let categoryquery = "SELECT * FROM category WHERE warehouseID = "+  fproduct[0].warehouseID +" ORDER BY categoryID ASC";
-        let deliveryquery = "SELECT * FROM delivery WHERE productID = " +  fproduct[0].productID ;
+        WHERE product.productID = " + productidfirst + " AND product.warehouseID = "+  warehouseidfirst  +" ORDER BY productID ASC";
+        let categoryquery = "SELECT * FROM category WHERE warehouseID = "+  warehouseidfirst +" ORDER BY categoryID ASC";
+        let deliveryquery = "SELECT * FROM delivery WHERE productID = " +  productidfirst ;
         // excecuted qurey
         db.query(productquery, (err, result) => {
           if (err) {
@@ -79,6 +80,15 @@ module.exports = {
         });
         });
         });
+      } else {
+        res.render('product/product.ejs', {
+          productselect,
+          product,
+          category,
+          delivery,
+          warehouse : global.warehouse
+        })
+      };
       });
     } else {
       if(productid !== 0){
