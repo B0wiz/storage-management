@@ -9,13 +9,14 @@ const path = require('path');
 const app = express();
 
 
-const {getHomePage, getProductPage,getIncomingorderPage,getOutgoingorderPage,getReturnpage} = require('./routes/index');//Home page (Warehouse Page)
+const {getHomePage,getWarehousePage, getProductPage,getIncomingorderPage,getOutgoingorderPage,getReturnpage} = require('./routes/index');//Home page (Warehouse Page)
 const {AddWarehouse, getWarehouse, EditWarehouse, getUser, getUserSelected, EditManage, DeleteEmployee,DeleteWarehouse} = require('./routes/warehouse');//Add warehouse
-const {getSelectProduct,EditProduct, AddProduct, DeleteProduct, getEditCategorypage, AddCategory}  = require('./routes/product.js');
+const {getSelectProduct,EditProduct, AddProduct, DeleteProduct, getEditCategorypage, AddCategory, EditCategory, DeleteCategory}  = require('./routes/product.js');
 const { AddIncomingOrder, DeleteIncoming } = require('./routes/incoming');
 const { AddOutgoingOrder,Deleteoutgoing } = require('./routes/outgoing');
+const { Addreturn, DeleteReturn } = require('./routes/returns');
 
-const PORT = 3000; // Port
+const PORT = 5000; // Port
 
 // Connect to MySQL
 const db = mysql.createConnection({
@@ -43,7 +44,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(fileUpload());
 
+// Dashboard Page
 app.get('/',getHomePage);
+
+// Wareohuse Page
+app.get('/warehouse',getWarehousePage);
 app.post('/adw',AddWarehouse);
 app.get('/edw/:id', getWarehouse);
 app.post('/edw/sub/:id', EditWarehouse);
@@ -72,7 +77,9 @@ app.get('/edp/:id', getSelectProduct);
 app.post('/edp/sub/:id', EditProduct);
 app.get('/dep/:wid/:id', DeleteProduct);
 app.post('/adc/:id', AddCategory);
-app.get('/edc', getEditCategorypage);
+app.get('/edc/:id', getWarehouseData,getEditCategorypage);
+app.post('/edc/sub/:id',getWarehouseData, EditCategory);
+app.get('/dec/:id',DeleteCategory)
 
 
 //Incoming order page
@@ -87,5 +94,6 @@ app.get('/deo/:id', Deleteoutgoing)
 
 // Return page
 app.get('/return/:pagestart',getWarehouseData, getReturnpage);
-
+app.post('/adr',Addreturn);
+app.get('/der/:id',DeleteReturn)
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

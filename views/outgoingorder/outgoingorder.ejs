@@ -95,6 +95,7 @@
             <table class="w-full text-sm text-gray-500 text-center">
               <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr id="header" class="h-20">
+                  <th scope="col" class="px-4 py-3">Order ID </th>
                   <th scope="col" class="px-4 py-3">warehouse name</th>
                   <th scope="col" class="px-4 py-3">product name</th>
                   <th scope="col" class="px-4 py-3">product quantity</th>
@@ -110,6 +111,9 @@
                 <% if(item.length> 0) { %>
                   <% item.forEach((item,index)=> { %>
                     <tr class="border-b" id="<%= item.warehouseID %>">
+                      <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                        <%= item.outgoingorderID %>
+                      </th>
                       <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
                         <%= item.warehousename %>
                       </th>

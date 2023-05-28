@@ -7,7 +7,11 @@ global.item = {}
 global.delivery= {};
 
 module.exports = {
-  getHomePage: (req, res) => {
+  getHomePage: (req,res) => {
+    res.render("dashboard/dashboard.ejs")
+  },
+
+  getWarehousePage: (req, res) => {
     let query = "SELECT * FROM warehouse ORDER BY warehouseID ASC";
     // excecuted qurey
     db.query(query, (err, result) => {
@@ -112,7 +116,7 @@ module.exports = {
           if (err) {
             res.redirect("/");
           }
-          let productselect = result
+          productselect = result
           if (productid === 0){
             deliveryquery = `SELECT * FROM delivery WHERE productID = ${productselect[0].productID} ORDER BY deliverytype ASC `;
           }else{
@@ -123,13 +127,12 @@ module.exports = {
               res.redirect("/");
             }
             delivery = result
-            console.log(delivery)
             res.render('product/product.ejs', {
                 productselect,
                 product,
                 category,
                 delivery,
-                warehouse : global.warehouse
+                warehouse : global.warehouse,
             })
           })
         });
@@ -218,12 +221,12 @@ module.exports = {
         if (err) {
           res.redirect("/");
         }
-        let allproduct = result;
+        allproduct = result;
         db.query(deliverquery, (err, result) => {
           if (err) {
             res.redirect("/");
           }
-          let alldelivery = result;
+          alldelivery = result;
         db.query(itemquery, (err, result) => {
           if (err) {
             res.redirect("/");
@@ -244,16 +247,20 @@ module.exports = {
   },
 
   getReturnpage :(req,res) =>{
+    var error = parseInt(req.query.err);
     var pageStart = parseInt(req.query.start);
     var offset = parseInt(req.params.pagestart);
     if (offset !== 0) {
       offset += 9;
     }
-    let itemquery = "SELECT returns.* , customers.customersname AS customername , product.productname AS productname FROM returns\
-    JOIN product ON returns.productID = product.productID\
-    JOIN outgoingorders ON returns.outgoingorderID = outgoingorders.outgoingorderID\
+    let itemquery = "SELECT returns.* , customers.customersname AS customername , product.productname AS productname,\
+    warehouse.warehousename AS warehousename,  outgoingorders.outgoingorderID AS outgoingorderID FROM returns\
+    JOIN outgoingitems ON returns.outgoingitemID = outgoingitems.outgoingitemsID\
+    JOIN product ON outgoingitems.productID = product.productID\
+    JOIN outgoingorders ON outgoingitems.outgoingorderID = outgoingorders.outgoingorderID\
     JOIN customers ON outgoingorders.customersID = customers.customersID\
-    ORDER BY returnID DESC LIMIT 10 OFFSET 0;";
+    JOIN warehouse ON returns.warehouseID = warehouse.warehouseID\
+    ORDER BY returnID DESC LIMIT 10 OFFSET "+offset +";";
     const allitemquery =
       "SELECT * FROM returns";
     const allproductquery= "SELECT * FROM product ORDER BY productname ASC"
@@ -267,7 +274,7 @@ module.exports = {
         if (err) {
           res.redirect("/");
         }
-        let allproduct = result;
+        allproduct = result;
         db.query(itemquery, (err, result) => {
           if (err) {
             res.redirect("/");
@@ -279,6 +286,7 @@ module.exports = {
             pageStart,
             allitem,
             allproduct,
+            error
           });
         });
       });

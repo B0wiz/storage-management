@@ -98,13 +98,58 @@ module.exports = {
     },
 
     getEditCategorypage: (req,res) => {
-        let warehouseID = req.params.id
-        res.render('product/editcategory.ejs', {
-            product : global.product,
-            productselect : global.productselect ,
-            category : global.category,
-            delivery : global.delivery
+        let categoryID = req.params.id
+        let categoryquery = "SELECT * FROM category WHERE categoryID = "+ categoryID +"";
+        db.query(categoryquery,(err,result)=> {
+            if (err){
+                return res.status(500).send(err);
+            }
+            res.render('product/editcategory.ejs', {
+                product : global.product,
+                productselect : global.productselect,
+                category : result,
+                delivery : global.delivery,
+                warehouse : global.warehouse
+            })
         })
     },
 
+    EditCategory: (req,res)=>{
+        let categoryID = req.params.id
+        let categoryname = req.body.category
+        let updatecatquery = "UPDATE category SET \
+        categoryname = '"+ categoryname +"'\
+        WHERE categoryID = " + categoryID +"";
+        let warehousequery = "SELECT * FROM category WHERE categoryID = "+ categoryID;
+        db.query(updatecatquery,(err,result)=> {
+            if (err){
+                return res.status(500).send(err);
+            }
+            db.query(warehousequery,(err,result)=> {
+                if (err){
+                    return res.status(500).send(err);
+                }
+            warehouseID = result[0].warehouseID
+            res.redirect(`/product/${warehouseID}/0`)
+        })
+        })
+    },
+
+    DeleteCategory: (req,res) => {
+        let categoryID = req.params.id
+        let warehousequery = "SELECT * FROM category WHERE categoryID = "+ categoryID;
+        let deletequery = "DELETE FROM category WHERE categoryID = "+ categoryID;
+        db.query(warehousequery,(err,result)=> {
+            if (err){
+                return res.status(500).send(err);
+            }
+            let warehouseID = result[0].warehouseID
+            db.query(deletequery,(err,result)=> {
+                if (err){
+                    return res.status(500).send(err);
+                }
+            res.redirect(`/product/${warehouseID}/0`)
+        })
+        })
+    }
 }

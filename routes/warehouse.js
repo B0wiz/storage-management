@@ -24,7 +24,7 @@ module.exports = {
         if (err){
             return res.status(500).send(err);
         }
-        res.redirect('/');
+        res.redirect('/warehouse');
     });
   },
 
@@ -35,7 +35,7 @@ module.exports = {
     db.query(editquery, (err, result) => {
         if(err){
             console.log('error');
-            res.redirect('/');
+            res.redirect('/warehouse');
         }
         res.render('warehouse/edit.ejs', {
             editwh : result,
@@ -74,7 +74,7 @@ module.exports = {
         if (err){
             return res.status(500).send(err);
         }
-        res.redirect('/');
+        res.redirect('/warehouse');
     });
 
   },
@@ -85,7 +85,7 @@ module.exports = {
     // excecuted qurey
     db.query(query, (err, result) => {
         if(err){
-            res.redirect('/');
+            res.redirect('/warehouse');
         }
         user = result
         res.render('warehouse/manage.ejs', {
@@ -101,7 +101,7 @@ module.exports = {
     // excecuted qurey
     db.query(query, (err, result) => {
         if(err){
-            res.redirect('/');
+            res.redirect('/warehouse');
         }
         res.render('warehouse/editmanage.ejs', {
             userselected : result,
@@ -175,7 +175,7 @@ module.exports = {
       if (err){
           return res.status(500).send(err);
       }
-      res.redirect('/');
+      res.redirect('/warehouse');
   });
   },
 };
