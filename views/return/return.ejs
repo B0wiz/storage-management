@@ -116,71 +116,18 @@
                 class="space-y-2 text-sm"
                 aria-labelledby="filterDropdownButton"
               >
-                <li class="flex items-center">
-                  <input
-                    id="apple"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500"
-                  />
-                  <label
-                    for="apple"
-                    class="ml-2 text-sm font-medium text-gray-900"
-                    >Warehouse 1</label
-                  >
-                </li>
-                <li class="flex items-center">
-                  <input
-                    id="fitbit"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500"
-                  />
-                  <label
-                    for="fitbit"
-                    class="ml-2 text-sm font-medium text-gray-900"
-                    >Warehouse 2</label
-                  >
-                </li>
-                <li class="flex items-center">
-                  <input
-                    id="razor"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500"
-                  />
-                  <label
-                    for="razor"
-                    class="ml-2 text-sm font-medium text-gray-900"
-                    >Warehouse 3</label
-                  >
-                </li>
-                <li class="flex items-center">
-                  <input
-                    id="nikon"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500"
-                  />
-                  <label
-                    for="nikon"
-                    class="ml-2 text-sm font-medium text-gray-900"
-                    >Warehouse 4</label
-                  >
-                </li>
-                <li class="flex items-center">
-                  <input
-                    id="benq"
-                    type="checkbox"
-                    value=""
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500"
-                  />
-                  <label
-                    for="benq"
-                    class="ml-2 text-sm font-medium text-gray-900"
-                    >Warehouse 5</label
-                  >
-                </li>
+              <% if(warehouse.length> 0) {%>
+                <% warehouse.forEach((warehouse,index)=> { %>
+                  <li class="flex items-center">
+                    <input id="Selectwarehouse" type="checkbox" name="Selectwarehouse"
+                      value="<%= warehouse.warehouseID %>"
+                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500" />
+                    <label for="apple" class="ml-2 text-sm font-medium text-gray-900">
+                      <%= warehouse.warehousename %>
+                    </label>
+                  </li>
+                  <% }); %>
+                    <% };%>
               </ul>
             </div>
           </div>
@@ -195,3 +142,232 @@
         </div>
       </div>
     </header>
+    <section>
+      <div class="mx-auto max-w-screen">
+        <!-- Start coding here -->
+        <div class="bg-white relative border-b overflow-hidden">
+          <div class="overflow-x-auto overflow-y-auto">
+            <table class="w-full text-sm text-gray-500 text-center">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-4 py-3">Date</th>
+                  <th scope="col" class="px-4 py-3">warehouse name</th>
+                  <th scope="col" class="px-4 py-3">product name</th>
+                  <th scope="col" class="px-4 py-3">return quantity</th>
+                  <th scope="col" class="px-4 py-3">customer name</th>
+                  <th scope="col" class="px-4 py-3">reasons</th>
+                  <th scope="col" class="px-4 py-3">
+                    <span class="sr-only">Actions</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b">
+                  <!-- <th
+                    scope="row"
+                    class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"
+                  >
+                    Apple iMac 27&#34;
+                  </th> -->
+                  <td class="px-4 py-3">2021-09-01</td>
+                  <td class="px-4 py-3">Warehouse 1</td>
+                  <td class="px-4 py-3">IDOLF Black chair</td>
+                  <td class="px-4 py-3">300</td>
+                  <td class="px-4 py-3">John Doe</td>
+                  <td class="px-4 py-3">Broken</td>
+                  <td class="px-4 py-3 flex items-center justify-end">
+                    <button
+                      id="return-dropdown"
+                      data-dropdown-toggle="return-product-dropdown"
+                      data-dropdown-placement="left"
+                      class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none "
+                      type="button"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        aria-hidden="true"
+                        fill="currentColor"
+                        viewbox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      id="return-product-dropdown"
+                      class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24 text-left"
+                    >
+                      <ul
+                        class="py-2 text-sm text-gray-700"
+                        aria-labelledby="return-product-dropdown"
+                      >
+                        <div>
+                          <a
+                            href="#"
+                            class="block py-2 px-4 text-sm bg-red-600 hover:bg-red-700 text-gray-100"
+                            >Delete</a
+                          >
+                        </div>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <nav
+            class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+            aria-label="Table navigation"
+          >
+            <span class="text-sm font-normal text-gray-500">
+              Showing
+              <span class="font-semibold text-gray-900">1-10</span>
+              of
+              <span class="font-semibold text-gray-900">1000</span>
+            </span>
+            <ul class="inline-flex items-stretch -space-x-px">
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                >
+                  <span class="sr-only">Previous</span>
+                  <svg
+                    class="w-5 h-5"
+                    aria-hidden="true"
+                    fill="currentColor"
+                    viewbox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                  >1</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                  >2</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  aria-current="page"
+                  class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700"
+                  >3</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                  >...</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                  >100</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                >
+                  <span class="sr-only">Next</span>
+                  <svg
+                    class="w-5 h-5"
+                    aria-hidden="true"
+                    fill="currentColor"
+                    viewbox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const checkboxes = document.querySelectorAll('#Selectwarehouse');
+      var selectedWarehouses = [];
+
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) {
+            selectedWarehouses.push(checkbox.value);
+          } else {
+            const index = selectedWarehouses.indexOf(checkbox.value);
+            if (index !== -1) {
+              selectedWarehouses.splice(index, 1);
+            }
+          }
+          applyFilters();
+        });
+      });
+
+      const searchbutt = document.querySelector('#search');
+      searchbutt.addEventListener('input', () => {
+        applyFilters();
+      });
+
+      function applyFilters() {
+        const searchvalue = searchbutt.value.toLowerCase();
+        const rows = document.querySelectorAll('tr:not(#header)');
+        const items = document.querySelectorAll('.product-name');
+
+        rows.forEach((row, index) => {
+          const itemText = items[index].textContent.toLowerCase();
+
+          const warehouseSelected = selectedWarehouses.length === 0 || selectedWarehouses.includes(row.id);
+          const itemMatchesSearch = itemText.includes(searchvalue);
+
+          if (warehouseSelected && itemMatchesSearch) {
+            row.style.display = 'table-row';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      }
+
+      // script showing text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700
+      const pages = document.querySelectorAll('#page');
+      let selectpage = window.location.href;
+      const paramValue = selectpage.split('?')[0].split('/').pop();
+
+      pages.forEach((page) => {
+        var value = page.getAttribute('value');
+        if (value == paramValue) {
+
+          page.classList.remove('text-gray-500');
+          page.classList.remove('bg-white');
+          page.classList.add('bg-gray-100');
+          page.classList.add('text-gray-700');
+        }
+      })
+    </script>

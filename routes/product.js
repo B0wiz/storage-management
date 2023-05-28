@@ -33,7 +33,8 @@ module.exports = {
                 editpro : result,
                 product : global.product,
                 productselect : global.productselect ,
-                category : global.category
+                category : global.category,
+                delivery : global.delivery
             },)
         });
       },
@@ -82,5 +83,28 @@ module.exports = {
             }
             res.redirect(`/product/${warehouse}/0`);
         })
-    }
+    },
+
+    AddCategory: (req,res)=> {
+        let warehouseID = req.params.id;
+        let categoryname  = req.body.categoryadd;
+        let addcatquery = `INSERT INTO category (categoryname, warehouseID) VALUES ('${categoryname}', ${warehouseID});`;
+        db.query(addcatquery, (err,result) => {
+            if (err){
+                return res.status(500).send(err);
+            }
+            res.redirect(`/product/${warehouseID}/0`);
+        })
+    },
+
+    getEditCategorypage: (req,res) => {
+        let warehouseID = req.params.id
+        res.render('product/editcategory.ejs', {
+            product : global.product,
+            productselect : global.productselect ,
+            category : global.category,
+            delivery : global.delivery
+        })
+    },
+
 }

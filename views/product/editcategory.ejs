@@ -1,0 +1,304 @@
+<%- include('product.ejs') %>
+
+<div
+id="editCategory"
+tabindex="-1"
+aria-hidden="true"
+class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+>
+<div class="relative w-full max-w-xl max-h-full">
+  <!-- Modal content -->
+  <div class="relative bg-white rounded-lg shadow">
+    <!-- Modal header -->
+    <div
+      class="flex items-start justify-between p-4 border-b rounded-t"
+    >
+      <div class="mr-3">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-settings"
+        >
+          <path
+            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+          ></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-900">
+        Edit Category
+      </h3>
+      <button
+        type="button"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+        data-modal-hide="editCategory"
+      >
+        <svg
+          aria-hidden="true"
+          class="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd"
+          ></path>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+    </div>
+
+    <!-- Modal body -->
+    <div class="">
+      <form class="" action="Insert.php" method="post">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-center text-gray-500">
+            <thead
+              class="text-xs text-gray-700 uppercase bg-gray-100"
+            >
+              <tr>
+                <th scope="col" class="px-4 py-3">Category Name</th>
+
+                <th scope="col" class="px-4 py-3">
+                  <span class="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b">
+                <th
+                  scope="row"
+                  class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"
+                >
+                  Furniture
+                </th>
+
+                <td class="px-4 py-3 flex items-center justify-end">
+                  <button
+                    id="more-employee-dropdown-button"
+                    data-dropdown-toggle="more-employee-dropdown"
+                    data-dropdown-placement="left"
+                    class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none"
+                    type="button"
+                  >
+                    <svg
+                      class="w-5 h-5"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewbox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    id="more-employee-dropdown"
+                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24 text-left"
+                  >
+                    <ul
+                      class="py-2 text-sm text-gray-700"
+                      aria-labelledby="more-employee-dropdown-button"
+                    >
+                      <li>
+                        <a
+                          href="#"
+                          class="block py-2 px-4 hover:bg-gray-100"
+                          data-modal-target="editCategoryName"
+                          data-modal-toggle="editCategoryName"
+                          data-modal-hide="editCategory"
+                          >Edit</a
+                        >
+                      </li>
+                      <div>
+                        <a
+                          href="#"
+                          class="block py-2 px-4 text-sm bg-red-600 hover:bg-red-700 text-gray-100"
+                          data-modal-target="deleteCategoryName"
+                          data-modal-toggle="deleteCategoryName"
+                          data-modal-hide="editCategory"
+                          >Delete</a
+                        >
+                      </div>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr class="border-b">
+                <th
+                  scope="row"
+                  class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"
+                >
+                  Decoration stuff
+                </th>
+
+                <td class="px-4 py-3 flex items-center justify-end">
+                  <button
+                    id="more-employee-dropdown-button"
+                    data-dropdown-toggle="more-employee-dropdown"
+                    data-dropdown-placement="left"
+                    class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none"
+                    type="button"
+                  >
+                    <svg
+                      class="w-5 h-5"
+                      aria-hidden="true"
+                      fill="currentColor"
+                      viewbox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    id="more-employee-dropdown"
+                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-24 text-left"
+                  >
+                    <ul
+                      class="py-2 text-sm text-gray-700"
+                      aria-labelledby="more-employee-dropdown-button"
+                    >
+                      <li>
+                        <a
+                          href="#"
+                          class="block py-2 px-4 hover:bg-gray-100"
+                          data-modal-target="editEmployee"
+                          data-modal-toggle="editEmployee"
+                          data-modal-hide="manageWarehouse"
+                          >Edit</a
+                        >
+                      </li>
+                      <div>
+                        <a
+                          href="#"
+                          class="block py-2 px-4 text-sm bg-red-600 hover:bg-red-700 text-gray-100"
+                          data-modal-target="deleteEmployee"
+                          data-modal-toggle="deleteEmployee"
+                          data-modal-hide="manageWarehouse"
+                          >Delete</a
+                        >
+                      </div>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <nav
+          class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+          aria-label="Table navigation"
+        >
+          <span class="text-sm font-normal text-gray-500">
+            Showing
+            <span class="font-semibold text-gray-900">1-5</span>
+            of
+            <span class="font-semibold text-gray-900">100</span>
+          </span>
+          <ul class="inline-flex items-stretch -space-x-px">
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span class="sr-only">Previous</span>
+                <svg
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewbox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                >1</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                >2</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                aria-current="page"
+                class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700"
+                >3</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                >...</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                >20</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span class="sr-only">Next</span>
+                <svg
+                  class="w-5 h-5"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewbox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </form>
+    </div>
+    <!--  Modal footer  -->
+  </div>
+</div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = new Modal(document.getElementById("editCategoryName"));
+        toggle.show();
+    })
+</script>

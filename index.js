@@ -11,7 +11,7 @@ const app = express();
 
 const {getHomePage, getProductPage,getIncomingorderPage,getOutgoingorderPage,getReturnpage} = require('./routes/index');//Home page (Warehouse Page)
 const {AddWarehouse, getWarehouse, EditWarehouse, getUser, getUserSelected, EditManage, DeleteEmployee,DeleteWarehouse} = require('./routes/warehouse');//Add warehouse
-const {getSelectProduct,EditProduct, AddProduct, DeleteProduct}  = require('./routes/product.js');
+const {getSelectProduct,EditProduct, AddProduct, DeleteProduct, getEditCategorypage, AddCategory}  = require('./routes/product.js');
 const { AddIncomingOrder, DeleteIncoming } = require('./routes/incoming');
 const { AddOutgoingOrder,Deleteoutgoing } = require('./routes/outgoing');
 
@@ -70,7 +70,9 @@ app.get('/product/:warehouse/:id',getWarehouseData , getProductPage);
 app.post('/adp/:id', AddProduct);
 app.get('/edp/:id', getSelectProduct);
 app.post('/edp/sub/:id', EditProduct);
-app.get('/dep/:wid/:id', DeleteProduct)
+app.get('/dep/:wid/:id', DeleteProduct);
+app.post('/adc/:id', AddCategory);
+app.get('/edc', getEditCategorypage);
 
 
 //Incoming order page

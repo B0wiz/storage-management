@@ -3,7 +3,8 @@ let warehouse = require("./warehouse");
 global.productselect = {};
 global.product = {};
 global.category = {};
-global.item = {};
+global.item = {}
+global.delivery= {};
 
 module.exports = {
   getHomePage: (req, res) => {
@@ -23,7 +24,7 @@ module.exports = {
   getProductPage: (req, res) => {
     var productid = parseInt(req.params.id);
     var warehouseid = parseInt(req.params.warehouse);
-    if (productid === 0 || warehouseid === 0) {
+    if (productid === 0 && warehouseid === 0) {
       let firstproduct =
         "SELECT * FROM product  ORDER BY warehouseID ASC LIMIT 1";
       db.query(firstproduct, (err, result) => {
@@ -41,6 +42,7 @@ module.exports = {
         JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
         WHERE product.productID = " + fproduct[0].productID + " AND product.warehouseID = "+  fproduct[0].warehouseID  +" ORDER BY productID ASC";
         let categoryquery = "SELECT * FROM category WHERE warehouseID = "+  fproduct[0].warehouseID +" ORDER BY categoryID ASC";
+        let deliveryquery = "SELECT * FROM delivery WHERE productID = " +  fproduct[0].productID ;
         // excecuted qurey
         db.query(productquery, (err, result) => {
           if (err) {
@@ -52,6 +54,11 @@ module.exports = {
               res.redirect("/");
             }
             category = result;
+            db.query(deliveryquery, (err, result) => {
+              if (err) {
+                res.redirect("/");
+              }
+              delivery = result;
           db.query(productselectquery, (err, result) => {
             if (err) {
               res.redirect("/");
@@ -61,24 +68,36 @@ module.exports = {
                 productselect,
                 product,
                 category,
-                warehouse
+                delivery,
+                warehouse : global.warehouse
             })
           });
         });
         });
+        });
       });
     } else {
-      let productquery = "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
-        JOIN category ON product.categoryID = category.categoryID\
-        JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
-        WHERE product.warehouseID = "+  warehouseid  +" ORDER BY productID ASC";
-      let productselectquery =
+      if(productid !== 0){
+        var productselectquery =
         "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
             JOIN category ON product.categoryID = category.categoryID\
             JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
             WHERE product.productID = " + productid + " AND product.warehouseID = "+  warehouseid  +" ORDER BY productID ASC";
+      } else {
+        var productselectquery =
+        "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
+            JOIN category ON product.categoryID = category.categoryID\
+            JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
+            WHERE product.warehouseID = "+  warehouseid  +" ORDER BY productID ASC  LIMIT 1 ";
+      }
+      let productquery = "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
+        JOIN category ON product.categoryID = category.categoryID\
+        JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
+        WHERE product.warehouseID = "+  warehouseid  +" ORDER BY productID ASC";
+
       let categoryquery = "SELECT * FROM category WHERE warehouseID = "+  warehouseid +" ORDER BY categoryID ASC";
       // excecuted qurey
+      var deliveryquery;
       db.query(productquery, (err, result) => {
         if (err) {
           res.redirect("/");
@@ -93,12 +112,25 @@ module.exports = {
           if (err) {
             res.redirect("/");
           }
-          productselect = result
-          res.render('product/product.ejs', {
-              productselect,
-              product,
-              category,
-              warehouse : global.warehouse
+          let productselect = result
+          if (productid === 0){
+            deliveryquery = `SELECT * FROM delivery WHERE productID = ${productselect[0].productID} ORDER BY deliverytype ASC `;
+          }else{
+            deliveryquery = `SELECT * FROM delivery WHERE productID = ${productid} ORDER BY deliverytype ASC `;
+          }
+          db.query(deliveryquery, (err, result) => {
+            if (err) {
+              res.redirect("/");
+            }
+            delivery = result
+            console.log(delivery)
+            res.render('product/product.ejs', {
+                productselect,
+                product,
+                category,
+                delivery,
+                warehouse : global.warehouse
+            })
           })
         });
       });
@@ -212,15 +244,43 @@ module.exports = {
   },
 
   getReturnpage :(req,res) =>{
-    let query = "SELECT * FROM returns ORDER BY returnID ASC";
+    var pageStart = parseInt(req.query.start);
+    var offset = parseInt(req.params.pagestart);
+    if (offset !== 0) {
+      offset += 9;
+    }
+    let itemquery = "SELECT returns.* , customers.customersname AS customername , product.productname AS productname FROM returns\
+    JOIN product ON returns.productID = product.productID\
+    JOIN outgoingorders ON returns.outgoingorderID = outgoingorders.outgoingorderID\
+    JOIN customers ON outgoingorders.customersID = customers.customersID\
+    ORDER BY returnID DESC LIMIT 10 OFFSET 0;";
+    const allitemquery =
+      "SELECT * FROM returns";
+    const allproductquery= "SELECT * FROM product ORDER BY productname ASC"
     // excecuted qurey
-    db.query(query, (err, result) => {
+    db.query(allitemquery, (err, result) => {
       if (err) {
         res.redirect("/");
       }
-      returnitem = result
-      res.render("return/return.ejs", {
-        returnitem,
+      allitem = result;
+      db.query(allproductquery, (err, result) => {
+        if (err) {
+          res.redirect("/");
+        }
+        let allproduct = result;
+        db.query(itemquery, (err, result) => {
+          if (err) {
+            res.redirect("/");
+          }
+          item = result;
+          res.render("return/return.ejs", {
+            item,
+            warehouse : global.warehouse,
+            pageStart,
+            allitem,
+            allproduct,
+          });
+        });
       });
     });
   }
