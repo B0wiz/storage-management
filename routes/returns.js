@@ -32,11 +32,10 @@ module.exports = {
               }
   
               result.forEach(item => {
-                console.log('item',item)
                 if (parseInt(areturns.productID) === parseInt(item.productID)) {
                   itemFound = true;
                   let outgoingitemID = item.outgoingitemsID;
-                  let insertquery = `INSERT INTO returns (outgoingitemID, warehouseID, returndate, returnquantity, returnreasons,sender) VALUES (${outgoingitemID},${areturns.warehouseID},'${areturns.date}',${areturns.quantity},'${areturns.reasons}','${areturns.customername}')`;
+                  let insertquery = `INSERT INTO returns (outgoingitemsID, warehouseID, returndate, returnquantity, returnreasons,sender) VALUES (${outgoingitemID},${areturns.warehouseID},'${areturns.date}',${areturns.quantity},'${areturns.reasons}','${areturns.customername}')`;
                   db.query(insertquery, (err, result) => {
                     if (err) {
                       console.log('err3');

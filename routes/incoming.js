@@ -7,16 +7,23 @@ module.exports = {
                         warehouseID: req.body.warehouse,
                         quantity: req.body.quantity
                 }
-                console.log(aincomingorder);
-                let updateorderquery = "INSERT INTO incomingorder (userID, incomingorderdate) VALUE (2, '"+ aincomingorder.date +"')";
+                let updateorderquery = "INSERT INTO incomingorder (userID, incomingorderdate) VALUE (1, '"+ aincomingorder.date +"')";
                 let updateitemquery = "INSERT INTO incomingitems (incomingorderID, productID, warehouseID, incomingitemquantity) VALUE ";
                 let orderquery = "SELECT * FROM incomingorder ORDER BY incomingorderID DESC LIMIT 1";
                 db.query(updateorderquery, (err, result) => {
                         if (err){
                             return res.status(500).send(err);
                         }
+                        for (let index = 0; index < aincomingorder.productID.length; index++) {
+                                let productquery = "UPDATE product SET productquantity = productquantity + "+ parseInt(aincomingorder.quantity[index]) +" WHERE productID = "+ aincomingorder.productID[index];
+                                db.query(productquery, (err, result) => {
+                                        if (err){
+                                            return res.status(500).send(err);
+                                        }
+                                });
+                        }
                         db.query(orderquery, (err, result) => {
-                                if (err){
+                                if (err){ 
                                     return res.status(500).send(err);
                                 }
                                 orderID = result[0].incomingorderID
@@ -40,7 +47,7 @@ module.exports = {
         DeleteIncoming: (req,res)=>{
                 let incomingID = req.params.id;
                 let Deletequery = "DELETE FROM incomingitems WHERE incomingitemsID = "+ incomingID +"";
-
+                
                 db.query(Deletequery, (err, result) => {
                         if (err){
                             return res.status(500).send(err);

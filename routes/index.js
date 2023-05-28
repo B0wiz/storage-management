@@ -6,7 +6,76 @@ global.delivery= {};
 
 module.exports = {
   getHomePage: (req,res) => {
-    res.render("dashboard/dashboard.ejs")
+    let incommingquery = "SELECT incomingitems.* , SUM(incomingitems.incomingitemquantity) AS total , COUNT(incomingitems.incomingitemquantity) AS ordernum ,warehouse.warehousename AS warehousename, product.productname AS productname FROM incomingitems \
+    JOIN warehouse ON incomingitems.warehouseID = warehouse.warehouseID \
+    JOIN product ON incomingitems.productID = product.productID \
+    GROUP BY productname\
+    ORDER BY total DESC, ordernum DESC LIMIT 10";
+    let warehousequery = "SELECT warehouse.warehousename AS warehousename,\
+    COUNT(DISTINCT outgoingorders.outgoingorderID) + COUNT(DISTINCT incomingorder.incomingorderID) AS total_orders\
+    FROM warehouse\
+    LEFT JOIN outgoingitems ON outgoingitems.warehouseID = warehouse.warehouseID\
+    LEFT JOIN outgoingorders ON outgoingorders.outgoingorderID = outgoingitems.outgoingorderID\
+    LEFT JOIN incomingitems ON incomingitems.warehouseID = warehouse.warehouseID\
+    LEFT JOIN incomingorder ON incomingorder.incomingorderID = incomingitems.incomingorderID\
+    GROUP BY warehouse.warehouseID\
+    ORDER BY total_orders DESC\
+    LIMIT 10";
+    let outgoingquery = "SELECT outgoingitems.* , SUM(outgoingitems.outgoingitemquantity) AS total , COUNT(outgoingitems.outgoingitemquantity) AS ordernum ,warehouse.warehousename AS warehousename, product.productname AS productname FROM outgoingitems \
+    JOIN warehouse ON outgoingitems.warehouseID = warehouse.warehouseID \
+    JOIN product ON outgoingitems.productID = product.productID \
+    GROUP BY productname \
+    ORDER BY total DESC, ordernum DESC LIMIT 10";
+    let returnquery = "SELECT returns.* , SUM(returns.returnquantity) AS total , COUNT(returns.returnquantity) AS ordernum ,warehouse.warehousename AS warehousename, product.productname AS productname FROM returns \
+    JOIN warehouse ON returns.warehouseID = warehouse.warehouseID \
+    JOIN outgoingitems ON returns.outgoingitemsID = outgoingitems.outgoingitemsID\
+    JOIN product ON outgoingitems.productID = product.productID \
+    GROUP BY productname\
+    ORDER BY total DESC, ordernum DESC, productname DESC LIMIT 10";
+    let customerquery = "SELECT outgoingitems.* , customers.customersname AS customername, \
+    SUM(outgoingitems.outgoingitemquantity) AS total, \
+    COUNT(outgoingitems.outgoingitemquantity) AS ordernum\
+    FROM outgoingitems\
+    JOIN outgoingorders ON outgoingitems.outgoingorderID = outgoingorders.outgoingorderID\
+    JOIN customers ON outgoingorders.customersID = customers.customersID\
+    GROUP BY customername ORDER BY total DESC, ordernum DESC LIMIT 10";
+    db.query(outgoingquery, (err, result) => {
+      if (err) {
+        res.redirect("/");
+      }
+      const topoutpro = result
+      db.query(incommingquery, (err, result) => {
+        if (err) {
+          res.redirect("/");
+        }
+        const topinpro = result
+        db.query(returnquery, (err, result) => {
+          if (err) {
+            res.redirect("/");
+          }
+          const topreturn = result
+          db.query(customerquery, (err, result) => {
+            if (err) {
+              res.redirect("/");
+            }
+            const topcus = result
+            db.query(warehousequery, (err, result) => {
+              if (err) {
+                res.redirect("/");
+              }
+              const topwarehouse = result
+        res.render("dashboard/dashboard.ejs",{
+          topoutpro,
+          topinpro,
+          topreturn,
+          topcus,
+          topwarehouse
+        });
+      });
+    });
+      });
+    });
+    });
   },
 
   getWarehousePage: (req, res) => {
@@ -26,6 +95,8 @@ module.exports = {
   getProductPage: (req, res) => {
     var productid = parseInt(req.params.id);
     var warehouseid = parseInt(req.params.warehouse);
+    var warehouseidfirst = 1;
+    var productidfirst = 1;
     if (productid === 0 && warehouseid === 0) {
       let firstproduct =
         "SELECT * FROM product  ORDER BY productID ASC LIMIT 1";
@@ -34,9 +105,12 @@ module.exports = {
           console.log('err')
           res.redirect("/");
         }
-        if (result.length > 0) {
-        let warehouseidfirst = result[0].warehouseID;
-        let productidfirst = result[0].productID;
+        if(result.length > 0){
+          warehouseidfirst = result[0].warehouseID;
+         productidfirst = result[0].productID;  
+        }  
+      });
+      
         let productquery = "SELECT product.*, category.categoryname AS categoryname, warehouse.warehousename AS warehousename FROM product \
         JOIN category ON product.categoryID = category.categoryID\
         JOIN warehouse ON product.warehouseID = warehouse.warehouseID\
@@ -53,22 +127,24 @@ module.exports = {
           if (err) {
             res.redirect("/");
           }
-          product = result;
+            product = result
           db.query(categoryquery, (err, result) => {
             if (err) {
               res.redirect("/");
             }
-            category = result;
+            category = result ;  
+          });
+          if (product.length > 0) {
             db.query(deliveryquery, (err, result) => {
               if (err) {
                 res.redirect("/");
               }
-              delivery = result;
+                delivery = result;
           db.query(productselectquery, (err, result) => {
             if (err) {
               res.redirect("/");
             }
-            productselect = result
+              productselect = result
             res.render('product/product.ejs', {
                 productselect,
                 product,
@@ -78,18 +154,23 @@ module.exports = {
             })
           });
         });
-        });
-        });
       } else {
-        res.render('product/product.ejs', {
-          productselect,
-          product,
-          category,
-          delivery,
-          warehouse : global.warehouse
+        db.query(categoryquery, (err, result) => {
+          if (err) {
+            res.redirect("/");
+          }
+          category = result; 
+          res.render('product/product.ejs', {
+            productselect,
+            product,
+            category : category ,
+            delivery,
+            warehouse : global.warehouse,
         })
-      };
+        });
+      }
       });
+
     } else {
       if(productid !== 0){
         var productselectquery =
@@ -121,7 +202,9 @@ module.exports = {
           if (err) {
             res.redirect("/");
           }
-          category = result;
+          category = result; 
+        });
+          if (product.length > 0) {
         db.query(productselectquery, (err, result) => {
           if (err) {
             res.redirect("/");
@@ -145,10 +228,24 @@ module.exports = {
                 warehouse : global.warehouse,
             })
           })
-        });
       });
+    } else {
+      db.query(categoryquery, (err, result) => {
+        if (err) {
+          res.redirect("/");
+        }
+        category = result; 
+        res.render('product/product.ejs', {
+          productselect,
+          product,
+          category : category ,
+          delivery,
+          warehouse : global.warehouse,
+      })
       });
     }
+      });
+  }
   },
 
   getIncomingorderPage: (req, res) => {
@@ -194,7 +291,7 @@ module.exports = {
                 warehouse : global.warehouse,
                 pageStart,
                 allitem,
-                allproduct
+                allproduct : JSON.stringify(allproduct),
               });
             });
           });
@@ -247,8 +344,8 @@ module.exports = {
             warehouse : global.warehouse,
             pageStart,
             allitem,
-            allproduct,
-            alldelivery
+            allproduct: JSON.stringify(allproduct),
+            alldelivery: JSON.stringify(alldelivery),
           });
         });
       });
@@ -265,7 +362,7 @@ module.exports = {
     }
     let itemquery = "SELECT returns.* , customers.customersname AS customername , product.productname AS productname,\
     warehouse.warehousename AS warehousename,  outgoingorders.outgoingorderID AS outgoingorderID FROM returns\
-    JOIN outgoingitems ON returns.outgoingitemID = outgoingitems.outgoingitemsID\
+    JOIN outgoingitems ON returns.outgoingitemsID = outgoingitems.outgoingitemsID\
     JOIN product ON outgoingitems.productID = product.productID\
     JOIN outgoingorders ON outgoingitems.outgoingorderID = outgoingorders.outgoingorderID\
     JOIN customers ON outgoingorders.customersID = customers.customersID\
@@ -290,12 +387,13 @@ module.exports = {
             res.redirect("/");
           }
           item = result;
+          console.log(item)
           res.render("return/return.ejs", {
             item,
             warehouse : global.warehouse,
             pageStart,
             allitem,
-            allproduct,
+            allproduct: JSON.stringify(allproduct),
             error
           });
         });
